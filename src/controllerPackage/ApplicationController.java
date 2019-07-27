@@ -10,12 +10,14 @@ public class ApplicationController {
     private PreparationOrderManager preparationOrderManager;    //Order = ordre
     private ConnectionManager connectionManager;
     private OrderManager orderManager;                          //Order = commande
+    private IngredientManager ingredientManager;
 
 
     public ApplicationController(){
         this.preparationOrderManager = new PreparationOrderManager();
         this.connectionManager = new ConnectionManager();
         this.orderManager = new OrderManager();
+        this.ingredientManager = new IngredientManager();
     }
 
     //CONNECTION
@@ -24,7 +26,9 @@ public class ApplicationController {
         System.out.println("Connexion coupée. Au revoir !");
     }
     //ORDERS
-    //public void addOrder()
+    public void addOrder(ArrayList<OrderLine> orderLines){
+        orderManager.addOrder();
+    }
 
     //PREPARATION ORDERS
     public ArrayList<PreparationOrder> getAllPreparationOrders() { //TODO throws exceptionGetAllOrder
@@ -33,7 +37,7 @@ public class ApplicationController {
 
     //INGREDIENT
     public ArrayList<Ingredient> getAllIngredients(){
-        return orderManager.getAllIngredients();
+        return ingredientManager.getAllIngredients();
     }
 
 }

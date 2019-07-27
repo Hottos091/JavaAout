@@ -12,9 +12,13 @@ public class OrderManager {
         this.orderDBAccess = new OrderDBAccess();
     }
 
-    public ArrayList<Ingredient> getAllIngredients(){
-        return orderDBAccess.getAllIngredients();
+    public void addOrder(){
+        System.out.println("TODO");
     }
+
+
+
+
 
 
 

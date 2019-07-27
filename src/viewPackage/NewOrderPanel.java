@@ -22,6 +22,7 @@ public class NewOrderPanel extends JPanel {
 
     public NewOrderPanel(ApplicationController applicationController){
         this.applicationController = applicationController;
+        orderLines = new ArrayList<>();
         //JLabels
         labelIngredient = new JLabel("Ingrédient : ");
         labelQuantity = new JLabel("Quantity : ");
@@ -85,11 +86,17 @@ public class NewOrderPanel extends JPanel {
                 newOrderLine.setQuantity(quantity);
                 newOrderLine.setIngredientLabel(label);
 
-                //applicationController.addOrder();
+                orderLines.add(newOrderLine);
             } catch(NumberFormatException n){
                 System.out.println("Veuillez entrer un nombre dans le champ \"Quantité\"");
             }
         }
 
+    }
+
+    private class ButtonConfirmListener implements ActionListener {
+        public void actionPerformed(ActionEvent e){
+            applicationController.addOrder(orderLines);
+        }
     }
 }
