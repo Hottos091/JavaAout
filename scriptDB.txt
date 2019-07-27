@@ -1,0 +1,306 @@
+
+
+-- Database Section
+-- ________________ 
+
+create database test3;
+use test3;
+
+
+-- Tables Section
+-- _____________ 
+
+create table Commande (
+     code int not null auto_increment,
+     datetransaction date not null,
+     numtelfournisseur varchar(64) not null,
+     constraint COMMANDE_PK primary key (code));
+
+create table LigneCommande (
+     code int not null,
+     ingredientlabel varchar(64) not null,
+     quantite int not null,
+     constraint LIGNECOMMANDE_PK primary key(code, ingredientlabel));
+
+create table Ingredient (
+     ingredientlabel varchar(64) not null,
+     quantiteenstock int,
+     constraint INGREDIENT_PK primary key (ingredientlabel));
+
+create table Composition (
+     ingredientlabel varchar(64) not null,
+     recettelabel varchar(64) not null,
+     quantitenecessaire int not null,
+     constraint COMPOSITION_PK primary key (ingredientlabel, recettelabel));
+
+create table Fournisseur (
+     numtel varchar(64) not null,
+      nom varchar(64) not null,
+     prenom varchar(64) not null,
+     email varchar(255) not null,
+     numerorue integer not null,
+     nomRue varchar(64) not null,
+     codepostal int not null,
+     localitelabel varchar(64) not null,
+     constraint FOURNISSEUR_PK primary key (numtel));
+
+create table Localite (
+     codepostal integer not null,
+     localitelabel varchar(120) not null,
+     constraint LOCALITE_PK primary key (codepostal, localitelabel));
+
+create table Recette (
+     recettelabel varchar(64) not null,
+     tempspreparation integer not null,
+     nbpersonnes integer not null,
+     constraint RECETTE_PK primary key (recettelabel));
+
+create table EtapeRecette (
+     etape_id int auto_increment,
+     numeroetape integer not null,
+     descriptionetape varchar (255) not null,
+     recette_label varchar(64),
+     constraint ETAPERECETTE_PK primary key(etape_id));
+    
+create table OrdrePreparation (
+     code integer not null,
+     ordrerecettelabel varchar(64) not null,
+     matriculecuisinier int not null,
+     prixportion double not null,
+     dateproduction date not null,
+     dateperemption date not null,
+     datevente date not null,
+     nombreportions integer not null,
+     commentairechefcuisinier varchar(255),
+     commentairecuisinier varchar(255),
+     esturgent boolean not null,
+     constraint ORDREPREPARATION_PK primary key (code));
+
+create table Cuisinier (
+     matricule int not null,
+     nom varchar(64) not null,
+     prenom varchar(64) not null,
+     chef_id int,
+     constraint CUISINIER_PK primary key (matricule));
+
+
+-- Constraints Section
+-- ___________________ 
+
+-- Not implemented
+-- alter table Commande add constraint COMMANDE_PK_CHK
+--     check(exists(select * from Achat
+--                  where Achat.Code = Code)); 
+
+alter table Commande add constraint COMMANDE_FOURNISSEUR_FK
+     foreign key (numtelfournisseur)
+     references Fournisseur (numtel);
+
+alter table OrdrePreparation add constraint ORDREPREPARATION_RECETTE_FK
+     foreign key (ordrerecettelabel)
+     references Recette (recettelabel);
+
+alter table OrdrePreparation add constraint ORDREPREPARATION_CUISINIER_FK
+     foreign key (matriculecuisinier)
+     references Cuisinier (matricule);
+
+alter table Fournisseur add constraint FOURNISSEUR_LOCALITE_FK
+     foreign key (codepostal, localitelabel)
+     references Localite (codepostal, localitelabel);
+
+
+-- Not implemented
+-- alter table Recette add constraint RECETTE_PK_CHK
+--     check(exists(select * from Composition
+--                  where Composition.RecetteLabel = RecetteLabel)); 
+
+alter table LigneCommande add constraint LIGNECOMMANDE_INGREDIENT_FK
+     foreign key (ingredientlabel)
+     references Ingredient (ingredientlabel);
+
+alter table LigneCommande add constraint LIGNECOMMANDE_COMMANDE_FK
+     foreign key (code)
+     references Commande (code);
+
+alter table Composition add constraint COMPOSITION_RECETTE_FK
+     foreign key (recettelabel)
+     references Recette (recettelabel);
+
+alter table Composition add constraint COMPOSITION_INGREDIENT_FK
+     foreign key (ingredientlabel)
+     references Ingredient (ingredientlabel);
+     
+alter table EtapeRecette add constraint ETAPERECETTE_RECETTE_FK  
+     foreign key (recette_label)
+    references Recette (recettelabel);
+
+-- Index Section
+-- _____________ 
+
+create unique index COMMANDE_PK_IND
+     on Commande (code);
+
+create index COMMANDE_FOURNISSEUR_FK_IND
+     on Commande (numtelfournisseur);
+
+create unique index INGREDIENT_PK_IND
+     on Ingredient (ingredientlabel);
+
+create unique index ORDREPREPARATION_PK_IND
+     on OrdrePreparation (code);
+
+create unique index ORDREPREPARATION_RECETTE_FK_IND
+     on OrdrePreparation (ordrerecettelabel);
+
+create unique index ORDREPREPARATION_CUISINIER_FK_IND
+     on OrdrePreparation (matriculecuisinier);
+
+create unique index FOURNISSEUR_PK_IND
+     on Fournisseur (numtel);
+
+create index FOURNISSEUR_LOCALITE_FK_IND
+     on Fournisseur (codepostal, localitelabel);
+
+create unique index LOCALITE_PK_IND
+     on Localite (codepostal, localitelabel);
+
+create unique index RECETTE_PK_IND
+     on Recette (recettelabel);
+
+create unique index LIGNECOMMANDE_PK_IND
+     on LigneCommande (ingredientlabel, code);
+
+create index LIGNECOMMANDE_COMMANDE_FK_IND
+     on LigneCommande (code);
+
+create unique index COMPOSITION_PK_IND
+     on Composition (recettelabel, ingredientlabel);
+
+create index COMPOSITION_INGREDIENT_FK_IND
+     on Composition (ingredientlabel);
+
+create unique index CUISINIER_PK_IND
+     on Cuisinier (matricule);
+
+create index PREPARATION_FK_IND
+     on OrdrePreparation (matriculecuisinier);
+
+create index CREATION_FK_IND
+     on OrdrePreparation (ordrerecettelabel);
+
+
+
+     ######QUERIES
+
+##Recette
+insert into recette values ("Dorade au four", 35, 4);
+
+
+##Cuisinier
+insert into cuisinier values(001, "Seb", "Pat", null); #chef
+
+insert into cuisinier values (002, "Asap", "Rocky", 001);
+
+insert into cuisinier values(003, "Spahyd", "Erman", 001);
+
+
+##etaperecette
+insert into etaperecette values(1, 1, "Découper la carotte en tranches fines, le fenouil en lanière minces. Hacher l\'oignon et l\'ail. Déposer le poisson dans un plat allant au four, parsemer avec les légumes", "Dorade au four");
+
+insert into etaperecette values(2, 2, "Saler, poivrer, verser le jus du 1/2 citron, ajouter un bon filet d\'huile d\'olive.", "Dorade au four");
+
+insert into etaperecette values(3, 3, "Mettre au four une trentaine de minutes à 180°C (thermostat 6) en surveillant la cuisson. Réduire si les légumes brunissent trop.", "Dorade au four");
+
+insert into etaperecette values(4, 4, "Servir avec du riz blanc.", "Dorade au four");
+
+
+##ordrepreparation
+insert into ordrepreparation values (1, "Dorade au four", 002, 7.5, "2019-07-25", "2019-08-25", "2019-07-26", 40, "", "", true);
+
+
+##localite
+insert into localite values (6890, "Kelkpar");
+
+
+##fournisseur
+insert into fournisseur values ("0477265478", "Bush", "Buisson", "bushbuisson@gmail.com", 47, "Rue de la Forêt", 6890, "Kelkpar");
+
+
+
+
+
+
+
+     ######QUERIES POUR JAVA
+
+//trouve les étapes pour une recette
+     select numeroetape, descriptionetape
+from recette, etaperecette
+where etaperecette.recette_label = recette.recettelabel
+order by numeroetape;
+
+
+
+
+//Sélectionne les étapes de la recette souhaitée
+select descriptionetape
+from recette, etaperecette
+where etaperecette.recette_label = "Dorade au four";
+
+
+
+
+select numeroetape, descriptionetape
+from recette, etaperecette
+where etaperecette.recette_label = "Dorade au four";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+public Order(Integer code, Integer numberPortions, double pricePortion, GregorianCalendar productionDate, GregorianCalendar expiryDate, GregorianCalendar saleDate, String chiefCommentary,
+                  String cookCommentary, boolean isUrgent, String cookIdNumber, String labelRecipe){
+        this.code = code;
+        this.numberPortions = numberPortions;
+        this.pricePortion = pricePortion;
+        this.productionDate = productionDate;
+        this.expiryDate = expiryDate;
+        this.saleDate = saleDate;
+        this.chiefCommentary = chiefCommentary;
+        this.cookCommentary = cookCommentary;
+        this.isUrgent = isUrgent;
+        this.cookIdNumber = cookIdNumber;
+        this.labelRecipe = labelRecipe;
+    }
+    public Order(Integer code){ //Utilisé lorsqu'on demande à avoir tous les ordres. On initialise l'objet avec son code uniquement. Le reste se fait via settors
+        this.code = code;
+    }
+
+
+
+    //TODO 
+    #1 : JTable s'affiche quand je redimensionne la fenêtre
+    #2 : Implémenter le Design Pattern DAO (Interfaces dans la couche dataAccess)
