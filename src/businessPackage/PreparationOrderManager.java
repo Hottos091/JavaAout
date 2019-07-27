@@ -14,7 +14,7 @@ public class PreparationOrderManager {
 
 
 
-    public ArrayList<PreparationOrder> getAllOrders(){
-        return preparationOrderDB.getAllOrders();
+    public ArrayList<PreparationOrder> getAllPreparationOrders(){
+        return preparationOrderDB.getAllPreparationOrders();
     }
 }

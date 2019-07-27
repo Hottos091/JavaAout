@@ -24,8 +24,11 @@ public class ApplicationController {
         System.out.println("Connexion coupée. Au revoir !");
     }
     //ORDERS
-    public ArrayList<PreparationOrder> getAllOrders() { //TODO throws exceptionGetAllOrder
-        return preparationOrderManager.getAllOrders();
+    //public void addOrder()
+
+    //PREPARATION ORDERS
+    public ArrayList<PreparationOrder> getAllPreparationOrders() { //TODO throws exceptionGetAllOrder
+        return preparationOrderManager.getAllPreparationOrders();
     }
 
     //INGREDIENT

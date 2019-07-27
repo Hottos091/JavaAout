@@ -7,21 +7,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class AllOrdersPanel extends JPanel {
+public class AllPreparationOrdersPanel extends JPanel {
     private ApplicationController applicationController;
     private ArrayList<PreparationOrder> allPreparationOrders;
     private JTable table;
-    private AllOrdersModel model;
+    private AllPreparationOrdersModel model;
     private ListSelectionModel listSelectionModel;
 
-    public AllOrdersPanel(ApplicationController applicationController) {
+    public AllPreparationOrdersPanel(ApplicationController applicationController) {
         this.applicationController = applicationController;
 
-        allPreparationOrders = applicationController.getAllOrders();
+        allPreparationOrders = applicationController.getAllPreparationOrders();
 
         this.setLayout(new BorderLayout());
 
-        model = new AllOrdersModel(allPreparationOrders);
+        model = new AllPreparationOrdersModel(allPreparationOrders);
         table = new JTable(model);
         table.setLayout(new BorderLayout());
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

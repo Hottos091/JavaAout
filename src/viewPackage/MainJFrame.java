@@ -6,14 +6,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 public class MainJFrame extends JFrame {
     private JMenuBar menuBar;
     private JMenu preparationOrderMenu, searchMenu, helpMenu, orderMenu;
     private JMenuItem exit, newPreparationOrder, deleteOrder, modifyOrder, listingOrder, firstSearch, secondSearch, thirdSearch, help, newOrder;
     private Container container;
-    private AllOrdersPanel allOrdersPanel;
+    private AllPreparationOrdersPanel allPreparationOrdersPanel;
     private NewOrderPanel newOrderPanel;
     private ApplicationController applicationController;
 
@@ -61,8 +60,8 @@ public class MainJFrame extends JFrame {
         listingOrder.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 container.removeAll();
-                allOrdersPanel = new AllOrdersPanel(applicationController);
-                container.add(allOrdersPanel);
+                allPreparationOrdersPanel = new AllPreparationOrdersPanel(applicationController);
+                container.add(allPreparationOrdersPanel);
             }
         });
 

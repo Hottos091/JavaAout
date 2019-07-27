@@ -6,12 +6,12 @@ import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class AllOrdersModel extends AbstractTableModel {
+public class AllPreparationOrdersModel extends AbstractTableModel {
 
     private ArrayList<String> columnNames;
     private ArrayList<PreparationOrder> contents;
 
-    public AllOrdersModel(ArrayList<PreparationOrder> preparationOrders){
+    public AllPreparationOrdersModel(ArrayList<PreparationOrder> preparationOrders){
         contents = preparationOrders;
         columnNames = new ArrayList<>();
         columnNames.add("Code");

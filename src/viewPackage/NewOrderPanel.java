@@ -75,15 +75,17 @@ public class NewOrderPanel extends JPanel {
     }
 
 
-
-
     private class ButtonAddToListListener implements ActionListener {
         public void actionPerformed(ActionEvent e){
             try {
-                Integer.parseInt(fieldQuantity.getText());
+                Integer quantity = Integer.parseInt(fieldQuantity.getText());
+                String label = String.valueOf(comboBoxIngredients.getSelectedItem());
                 //Le code situé ci-dessous ne sera pas lu si l'exception est levée
+                OrderLine newOrderLine = new OrderLine();
+                newOrderLine.setQuantity(quantity);
+                newOrderLine.setIngredientLabel(label);
 
-
+                //applicationController.addOrder();
             } catch(NumberFormatException n){
                 System.out.println("Veuillez entrer un nombre dans le champ \"Quantité\"");
             }

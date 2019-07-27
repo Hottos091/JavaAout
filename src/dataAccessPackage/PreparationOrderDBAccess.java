@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 public class PreparationOrderDBAccess {
-    public ArrayList<PreparationOrder> getAllOrders() { // throws AllOrdersException
+    public ArrayList<PreparationOrder> getAllPreparationOrders() { // throws AllOrdersException
         ArrayList<PreparationOrder> allPreparationOrders = new ArrayList<>();
 
         Connection connection = SingletonConnection.getInstance();
