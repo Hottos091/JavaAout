@@ -2,6 +2,7 @@ package businessPackage;
 
 import dataAccessPackage.OrderDBAccess;
 import modelPackage.Ingredient;
+import modelPackage.OrderLine;
 
 import java.util.ArrayList;
 
@@ -12,9 +13,11 @@ public class OrderManager {
         this.orderDBAccess = new OrderDBAccess();
     }
 
-    public void addOrder(){
-        System.out.println("TODO");
+    public void addOrder(String supplierId){
+        orderDBAccess.addOrder(supplierId);
     }
+
+
 
 
 

@@ -11,6 +11,8 @@ public class ApplicationController {
     private ConnectionManager connectionManager;
     private OrderManager orderManager;                          //Order = commande
     private IngredientManager ingredientManager;
+    private SupplierManager supplierManager;
+    private OrderLineManager orderLineManager;
 
 
     public ApplicationController(){
@@ -18,6 +20,8 @@ public class ApplicationController {
         this.connectionManager = new ConnectionManager();
         this.orderManager = new OrderManager();
         this.ingredientManager = new IngredientManager();
+        this.supplierManager = new SupplierManager();
+        this.orderLineManager = new OrderLineManager();
     }
 
     //CONNECTION
@@ -26,8 +30,13 @@ public class ApplicationController {
         System.out.println("Connexion coupée. Au revoir !");
     }
     //ORDERS
-    public void addOrder(ArrayList<OrderLine> orderLines){
-        orderManager.addOrder();
+    public void addOrder(String supplierId){
+        orderManager.addOrder(supplierId);
+    }
+
+    //ORDERLINE
+    public void addOrderLines(ArrayList<OrderLine> orderLines){
+        orderLineManager.addOrderLines(orderLines);
     }
 
     //PREPARATION ORDERS
@@ -40,4 +49,11 @@ public class ApplicationController {
         return ingredientManager.getAllIngredients();
     }
 
+    //SUPPLIER
+    public ArrayList<String> getAllSuppliers(){
+        return supplierManager.getAllSuppliers();
+    }
+    public String getIdSupplier(String firstname, String name){
+        return supplierManager.getIdSupplier(firstname, name);
+    }
 }

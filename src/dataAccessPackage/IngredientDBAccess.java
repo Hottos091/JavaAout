@@ -1,5 +1,6 @@
 package dataAccessPackage;
 
+import dataAccessPackage.SingletonConnection;
 import modelPackage.Ingredient;
 
 import java.sql.Connection;
@@ -13,25 +14,25 @@ public class IngredientDBAccess {
         ArrayList<Ingredient> allIngredients = new ArrayList<>();
 
         Connection connection = SingletonConnection.getInstance();
-        ResultSet data = null;
+        ResultSet dataRS = null;
 
         Ingredient ingredient;
         String labelIngredient;
         Integer stockQuantityIngredient;
-
+        //TODO pas d'*
         String sql = "SELECT * from ingredient;";
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
 
-            data = statement.executeQuery();
+            dataRS = statement.executeQuery();
 
-            while(data.next()){
+            while(dataRS.next()){
                 ingredient = new Ingredient();
-                labelIngredient = data.getString("ingredientlabel");
+                labelIngredient = dataRS.getString("ingredientlabel");
                 ingredient.setLabel(labelIngredient);
 
-                stockQuantityIngredient = data.getInt("quantiteenstock");
+                stockQuantityIngredient = dataRS.getInt("quantiteenstock");
                 ingredient.setQuantityInStock(stockQuantityIngredient);
 
                 allIngredients.add(ingredient);

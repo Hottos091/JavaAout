@@ -8,4 +8,19 @@ public class Order {
     private GregorianCalendar transactionDate;
     private Supplier supplier;
 
+
+    //SETTORS
+    public void setTransactionDate(GregorianCalendar transactionDate) {
+        this.transactionDate = transactionDate;
+    }
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
+    }
+    //GETTORS
+    public GregorianCalendar getTransactionDate() {
+        return transactionDate;
+    }
+    public Supplier getSupplier() {
+        return supplier;
+    }
 }

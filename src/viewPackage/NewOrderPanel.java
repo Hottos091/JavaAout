@@ -1,6 +1,7 @@
 package viewPackage;
 
 import controllerPackage.ApplicationController;
+import dataAccessPackage.SingletonConnection;
 import modelPackage.*;
 
 import javax.swing.*;
@@ -12,7 +13,8 @@ import java.util.Collection;
 public class NewOrderPanel extends JPanel {
     private ApplicationController applicationController;
     private ArrayList<Ingredient> allIngredients;
-    private JComboBox<String> comboBoxIngredients;
+    private ArrayList<String> allSuppliers;
+    private JComboBox<String> comboBoxIngredients, comboBoxSuppliers;
     private JButton buttonShowList, buttonAddToList, buttonConfirm;
     private JLabel labelIngredient, labelQuantity;
     private JTextField fieldQuantity;
@@ -31,13 +33,21 @@ public class NewOrderPanel extends JPanel {
         buttonAddToList = new JButton("Ajouter à la liste");
         buttonAddToList.addActionListener(new ButtonAddToListListener());
         buttonConfirm = new JButton("Confirmer commande");
+        buttonConfirm.addActionListener(new ButtonConfirmListener());
         //Field
         fieldQuantity = new JTextField();
+        //JComboBox Lists
         allIngredients = applicationController.getAllIngredients();
 
+        allSuppliers = applicationController.getAllSuppliers();
 
 
         //JComboBox
+        comboBoxSuppliers = new JComboBox<String>();
+        for(String supplier : allSuppliers){
+            comboBoxSuppliers.addItem(supplier);
+        }
+
         comboBoxIngredients = new JComboBox<String>();
         for(Ingredient ingredient : allIngredients) {
             comboBoxIngredients.addItem(ingredient.getLabel());
@@ -62,7 +72,11 @@ public class NewOrderPanel extends JPanel {
         this.add(labelQuantity, gbc);
         gbc.gridx++;
         this.add(fieldQuantity, gbc);
-
+        //Supplier
+        gbc.gridy++;
+        gbc.fill=GridBagConstraints.HORIZONTAL;
+        this.add(comboBoxSuppliers, gbc);
+        //Buttons
         gbc.gridx=0;
         gbc.gridy++;
         gbc.fill = GridBagConstraints.NONE;
@@ -81,12 +95,15 @@ public class NewOrderPanel extends JPanel {
             try {
                 Integer quantity = Integer.parseInt(fieldQuantity.getText());
                 String label = String.valueOf(comboBoxIngredients.getSelectedItem());
+
                 //Le code situé ci-dessous ne sera pas lu si l'exception est levée
+                //OrderLine
                 OrderLine newOrderLine = new OrderLine();
                 newOrderLine.setQuantity(quantity);
                 newOrderLine.setIngredientLabel(label);
 
                 orderLines.add(newOrderLine);
+
             } catch(NumberFormatException n){
                 System.out.println("Veuillez entrer un nombre dans le champ \"Quantité\"");
             }
@@ -96,7 +113,17 @@ public class NewOrderPanel extends JPanel {
 
     private class ButtonConfirmListener implements ActionListener {
         public void actionPerformed(ActionEvent e){
-            applicationController.addOrder(orderLines);
+            String supplierFullName = String.valueOf(comboBoxSuppliers.getSelectedItem());
+
+            String[] splitFullName = supplierFullName.split("\\s+", -2);
+
+            String supplierId = applicationController.getIdSupplier(splitFullName[0], splitFullName[1]);
+
+
+            applicationController.addOrder(supplierId);
+            applicationController.addOrderLines(orderLines);
+
+
         }
     }
 }
