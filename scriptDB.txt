@@ -255,6 +255,10 @@ from recette, etaperecette
 where etaperecette.recette_label = "Dorade au four";
 
 
+//Trouve les lignes de commande pour une commande
+select lc.ingredientlabel, lc.quantite, c.code
+from lignecommande lc, commande c
+where lc.code = c.code;
 
 
 
@@ -275,6 +279,19 @@ where etaperecette.recette_label = "Dorade au four";
 
 
 
+
+
+
+
+
+
+
+
+
+
+    //TODO 
+    #1 : JTable s'affiche quand je redimensionne la fenêtre
+    #2 : Implémenter le Design Pattern DAO (Interfaces dans la couche dataAccess)
 
 
 
