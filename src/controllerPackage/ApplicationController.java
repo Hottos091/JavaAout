@@ -4,6 +4,7 @@ import modelPackage.*;
 
 import businessPackage.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ApplicationController {
@@ -13,7 +14,9 @@ public class ApplicationController {
     private IngredientManager ingredientManager;
     private SupplierManager supplierManager;
     private OrderLineManager orderLineManager;
-
+    private RecipeManager recipeManager;
+    private CookManager cookManager;
+    private RecipeStepManager recipeStepManager;
 
     public ApplicationController(){
         this.preparationOrderManager = new PreparationOrderManager();
@@ -22,6 +25,9 @@ public class ApplicationController {
         this.ingredientManager = new IngredientManager();
         this.supplierManager = new SupplierManager();
         this.orderLineManager = new OrderLineManager();
+        this.recipeManager = new RecipeManager();
+        this.cookManager = new CookManager();
+        this.recipeStepManager = new RecipeStepManager();
     }
 
     //CONNECTION
@@ -58,5 +64,23 @@ public class ApplicationController {
     }
     public String getIdSupplier(String firstname, String name){
         return supplierManager.getIdSupplier(firstname, name);
+    }
+
+    //RECIPE
+    public ArrayList<String> getAllRecipesLabels(){
+        return recipeManager.getAllRecipesLabels();
+    }
+    public Recipe getRecipe(String recipeLabel){
+        return recipeManager.getRecipe(recipeLabel);
+    }
+
+    //RECIPESTEP
+    public ArrayList<RecipeStep> getRecipeSteps(String recipelabel){
+        return recipeStepManager.getRecipeSteps(recipelabel);
+    }
+
+    //COOk
+    public ArrayList<String> getAllCooks(){
+        return cookManager.getAllCooks();
     }
 }

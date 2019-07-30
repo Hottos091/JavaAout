@@ -2,6 +2,7 @@ package dataAccessPackage;
 
 import modelPackage.OrderLine;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

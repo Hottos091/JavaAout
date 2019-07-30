@@ -19,7 +19,7 @@ public class NewOrderPanel extends JPanel {
     private ArrayList<String> allSuppliers;
     private JComboBox<String> comboBoxIngredients, comboBoxSuppliers;
     private JButton buttonShowList, buttonAddToList, buttonConfirm;
-    private JLabel labelIngredient, labelQuantity;
+    private JLabel labelIngredient, labelQuantity, labelSupplier, labelSupplyDate;
     private JTextField fieldQuantity;
     private JSpinner spinnerPreparationDate;
     private SpinnerDateModel modelSpinnerPreparationDate;
@@ -37,14 +37,16 @@ public class NewOrderPanel extends JPanel {
         //JLabels
         labelIngredient = new JLabel("Ingrédient : ");
         labelQuantity = new JLabel("Quantity : ");
-
+        labelSupplier = new JLabel("Fournisseur : ");
+        labelSupplyDate = new JLabel("Date de livraison : ");
         //Buttons
         buttonShowList = new JButton("Voir liste");
+
         buttonAddToList = new JButton("Ajouter à la liste");
         buttonAddToList.addActionListener(new ButtonAddToListListener());
+
         buttonConfirm = new JButton("Confirmer commande");
         buttonConfirm.addActionListener(new ButtonConfirmListener());
-
         //Field
         fieldQuantity = new JTextField();
 
@@ -53,11 +55,11 @@ public class NewOrderPanel extends JPanel {
         spinnerPreparationDate = new JSpinner(modelSpinnerPreparationDate);
 
         spinnerPreparationDate.setEditor(new JSpinner.DateEditor(spinnerPreparationDate, simpleDateFormat.toPattern()));
-        spinnerPreparationDate.setToolTipText("Date préparation");
+        spinnerPreparationDate.setToolTipText("Date de livraison");
         spinnerPreparationDate.setBackground(new Color(130, 196, 208));
 
-        Date dateTest = (Date) spinnerPreparationDate.getValue();
-        System.out.println(dateTest);
+
+
         //TODO TRADUCTION DE DATE EN SQL.DATE. deuxieme todo : FAIRE LES PANNEAUX POUR ORDRE DE PREPARATION. Puistu fais une bonne pause PUIS TU CODES LES FONCTIONNALITES DES ORDRES. EZ MON GARS
 
         //JComboBox Lists
@@ -81,7 +83,7 @@ public class NewOrderPanel extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(2, 2, 2, 2);
+        gbc.insets = new Insets(3, 3, 3, 3);
 
         //Ingredient
         this.add(labelIngredient, gbc);
@@ -95,9 +97,9 @@ public class NewOrderPanel extends JPanel {
         this.add(labelQuantity, gbc);
         gbc.gridx++;
         this.add(fieldQuantity, gbc);
-        //Supplier
-        gbc.gridy++;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        this.add(labelSupplier, gbc);
+        gbc.gridx++;
         this.add(comboBoxSuppliers, gbc);
         //Buttons
         gbc.gridx = 0;
@@ -107,12 +109,22 @@ public class NewOrderPanel extends JPanel {
         gbc.gridx = 2;
         this.add(buttonAddToList, gbc);
 
+
+
+        //CONFIRM COMMAND
+        //Supplier
+        gbc.gridx = 0;
+        gbc.gridy++;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        this.add(labelSupplier, gbc);
+        gbc.gridx++;
+        this.add(comboBoxSuppliers, gbc);
+
+        //Button
         gbc.gridx++;
         gbc.gridy++;
         this.add(buttonConfirm, gbc);
 
-        gbc.gridx = 0;
-        this.add(spinnerPreparationDate, gbc);
     }
 
 
