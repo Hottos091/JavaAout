@@ -12,7 +12,7 @@ public class OrderLineManager {
         this.orderLineDBAccess = new OrderLineDBAccess();
     }
 
-    public void addOrderLines(ArrayList<OrderLine> orderLines){
-        orderLineDBAccess.addOrderLines(orderLines);
+    public void addOrderLines(ArrayList<OrderLine> orderLines, Integer orderId){
+        orderLineDBAccess.addOrderLines(orderLines, orderId);
     }
 }

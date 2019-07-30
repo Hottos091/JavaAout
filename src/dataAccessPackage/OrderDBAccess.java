@@ -16,23 +16,41 @@ public class OrderDBAccess {
         long millis = System.currentTimeMillis();
         java.sql.Date sqlDate = new java.sql.Date(millis);
 
-        String sql = "INSERT INTO commande VALUES (?, ?, ?)";
+        String sql = "INSERT INTO commande (datetransaction, numtelfournisseur) VALUES (?, ?)";
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, 1);
-            statement.setDate(2, sqlDate);
-            statement.setString(3, supplierId);
+            statement.setDate(1, sqlDate);
+            statement.setString(2, supplierId);
 
             statement.executeUpdate();
         } catch(SQLException e){
             System.out.println(e.getMessage());
         }
+    }
 
+    public Integer getLastId(){
+        Connection connection = SingletonConnection.getInstance();
 
+        ResultSet dataRS = null;
+        Integer code = null;
 
+        String sql = "SELECT code\n" +
+                "FROM commande\n" +
+                "ORDER BY code DESC\n" +
+                "LIMIT 1;\n";
 
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
 
+            dataRS = statement.executeQuery();
 
+            while(dataRS.next()){
+                code = dataRS.getInt("code");
+            }
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return code;
     }
 }

@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class OrderLineDBAccess {
-    public void addOrderLines(ArrayList<OrderLine> orderLines) {
+    public void addOrderLines(ArrayList<OrderLine> orderLines, Integer orderId) {
         Connection connection = SingletonConnection.getInstance();
         String sql = "INSERT INTO lignecommande VALUES (?, ?, ?)";
 
@@ -16,7 +16,7 @@ public class OrderLineDBAccess {
             try {
                 PreparedStatement statement = connection.prepareStatement(sql);
 
-                statement.setInt(1, 1);
+                statement.setInt(1, orderId);
                 statement.setString(2, orderLine.getIngredientLabel());
                 statement.setInt(3, orderLine.getQuantity());
 

@@ -33,10 +33,13 @@ public class ApplicationController {
     public void addOrder(String supplierId){
         orderManager.addOrder(supplierId);
     }
+    public Integer getLastId(){
+        return orderManager.getLastId();
+    }
 
     //ORDERLINE
-    public void addOrderLines(ArrayList<OrderLine> orderLines){
-        orderLineManager.addOrderLines(orderLines);
+    public void addOrderLines(ArrayList<OrderLine> orderLines, Integer orderId){
+        orderLineManager.addOrderLines(orderLines, orderId);
     }
 
     //PREPARATION ORDERS

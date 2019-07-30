@@ -17,6 +17,9 @@ public class OrderManager {
         orderDBAccess.addOrder(supplierId);
     }
 
+    public Integer getLastId(){
+        return orderDBAccess.getLastId();
+    }
 
 
 
@@ -28,4 +31,6 @@ public class OrderManager {
 
 
 
-}
+
+
+    }
