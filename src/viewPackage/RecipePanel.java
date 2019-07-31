@@ -32,11 +32,11 @@ public class RecipePanel extends JPanel{
 
         //Label
         labelRecipe = new JLabel("Recette : ");
-        labelPrepTime = new JLabel("Temps de préparation : ");
+        labelPrepTime = new JLabel("Temps de préparation (minutes) : ");
         labelRecipeSteps = new JLabel("Description recette : ");
-        labelNbPeople = new JLabel("Nombre de personnes");
-        nbPeople = new JLabel();
-        prepTime = new JLabel();
+        labelNbPeople = new JLabel("Nombre de personnes : ");
+        nbPeople = new JLabel("");
+        prepTime = new JLabel("");
         //ComboBox
         comboBoxRecipe = new JComboBox<String>();
         for(String recipe : allRecipesLabel){
@@ -57,13 +57,31 @@ public class RecipePanel extends JPanel{
         gbc.gridx=1;
         this.add(comboBoxRecipe, gbc);
 
+        //PrepTime
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy++;
+        this.add(labelPrepTime, gbc);
+        gbc.gridx++;
+        this.add(prepTime, gbc);
+
+        //DescriptionRecipe
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.gridx=0;
+        gbc.gridy++;
+        this.add(labelRecipeSteps, gbc);
+        gbc.gridx = 3;
+        this.add(labelNbPeople, gbc);
+        gbc.gridx++;
+        this.add(nbPeople, gbc);
+
 
         //TextArea
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy++;
         gbc.gridwidth = 3;
-        gbc.weightx = 1.0;
+        gbc.weightx = 0.5;
         this.add(areaRecipeSteps, gbc);
         this.setVisible(true);
     }
@@ -92,8 +110,6 @@ public class RecipePanel extends JPanel{
                 for(RecipeStep step : recipeSteps){
                     areaRecipeSteps.append(step.toString());
                 }
-
-                JOptionPane.showMessageDialog(null, "Area mise à jour");
             }
         }
     }

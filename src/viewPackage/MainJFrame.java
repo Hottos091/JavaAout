@@ -13,8 +13,10 @@ public class MainJFrame extends JFrame {
     private JMenuItem exit, newPreparationOrder, deleteOrder, modifyOrder, listingOrder, firstSearch, secondSearch, thirdSearch, help, newOrder;
     private Container container;
     private AllPreparationOrdersPanel allPreparationOrdersPanel;
-    private RecipePanel recipePanel;
+    //private RecipePanel recipePanel;
+    //private OrderPreparationPanel orderPreparationPanel;
     private NewOrderPanel newOrderPanel;
+    private NewPreparationOrderPanel newPreparationOrderPanel;
     private ApplicationController applicationController;
 
     public MainJFrame(){
@@ -51,8 +53,8 @@ public class MainJFrame extends JFrame {
         newPreparationOrder.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 container.removeAll();
-                recipePanel = new RecipePanel(applicationController);
-                container.add(recipePanel);
+                newPreparationOrderPanel = new NewPreparationOrderPanel(applicationController);
+                container.add(newPreparationOrderPanel);
             }
         });
 
