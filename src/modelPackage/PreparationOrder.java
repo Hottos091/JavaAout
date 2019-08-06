@@ -1,5 +1,6 @@
 package modelPackage;
 
+
 import java.util.GregorianCalendar;
 
 public class PreparationOrder {
@@ -11,7 +12,7 @@ public class PreparationOrder {
     private GregorianCalendar saleDate;
     private String chiefCommentary;
     private String cookCommentary;
-    private String cookIdNumber;
+    private Integer cookIdNumber;
     private String labelRecipe;
     private boolean isUrgent;
 
@@ -49,7 +50,7 @@ public class PreparationOrder {
         return cookCommentary;
     }
 
-    public String getCookIdNumber() {
+    public Integer getCookIdNumber() {
         return cookIdNumber;
     }
 
@@ -98,7 +99,7 @@ public class PreparationOrder {
         this.cookCommentary = cookCommentary;
     }
 
-    public void setCookIdNumber(String cookIdNumber) {
+    public void setCookIdNumber(Integer cookIdNumber) {
         this.cookIdNumber = cookIdNumber;
     }
 

@@ -1,14 +1,14 @@
 
 
 -- Database Section
--- ________________ 
+-- ________________
 
-create database test3;
-use test3;
+create database test4;
+use test4;
 
 
 -- Tables Section
--- _____________ 
+-- _____________
 
 create table Commande (
      code int not null auto_increment,
@@ -61,9 +61,9 @@ create table EtapeRecette (
      descriptionetape varchar (255) not null,
      recette_label varchar(64),
      constraint ETAPERECETTE_PK primary key(etape_id));
-    
+
 create table OrdrePreparation (
-     code integer not null,
+     code integer not null auto_increment,
      ordrerecettelabel varchar(64) not null,
      matriculecuisinier int not null,
      prixportion double not null,
@@ -74,7 +74,7 @@ create table OrdrePreparation (
      commentairechefcuisinier varchar(255),
      commentairecuisinier varchar(255),
      esturgent boolean not null,
-     constraint ORDREPREPARATION_PK primary key (code));
+     constraint ORDREPREPARATION_PK primary key (code, ordrerecettelabel));
 
 create table Cuisinier (
      matricule int not null,
@@ -85,12 +85,12 @@ create table Cuisinier (
 
 
 -- Constraints Section
--- ___________________ 
+-- ___________________
 
 -- Not implemented
 -- alter table Commande add constraint COMMANDE_PK_CHK
 --     check(exists(select * from Achat
---                  where Achat.Code = Code)); 
+--                  where Achat.Code = Code));
 
 alter table Commande add constraint COMMANDE_FOURNISSEUR_FK
      foreign key (numtelfournisseur)
@@ -112,7 +112,7 @@ alter table Fournisseur add constraint FOURNISSEUR_LOCALITE_FK
 -- Not implemented
 -- alter table Recette add constraint RECETTE_PK_CHK
 --     check(exists(select * from Composition
---                  where Composition.RecetteLabel = RecetteLabel)); 
+--                  where Composition.RecetteLabel = RecetteLabel));
 
 alter table LigneCommande add constraint LIGNECOMMANDE_INGREDIENT_FK
      foreign key (ingredientlabel)
@@ -129,13 +129,13 @@ alter table Composition add constraint COMPOSITION_RECETTE_FK
 alter table Composition add constraint COMPOSITION_INGREDIENT_FK
      foreign key (ingredientlabel)
      references Ingredient (ingredientlabel);
-     
-alter table EtapeRecette add constraint ETAPERECETTE_RECETTE_FK  
+
+alter table EtapeRecette add constraint ETAPERECETTE_RECETTE_FK
      foreign key (recette_label)
     references Recette (recettelabel);
 
 -- Index Section
--- _____________ 
+-- _____________
 
 create unique index COMMANDE_PK_IND
      on Commande (code);
@@ -148,12 +148,6 @@ create unique index INGREDIENT_PK_IND
 
 create unique index ORDREPREPARATION_PK_IND
      on OrdrePreparation (code);
-
-create unique index ORDREPREPARATION_RECETTE_FK_IND
-     on OrdrePreparation (ordrerecettelabel);
-
-create unique index ORDREPREPARATION_CUISINIER_FK_IND
-     on OrdrePreparation (matriculecuisinier);
 
 create unique index FOURNISSEUR_PK_IND
      on Fournisseur (numtel);
@@ -194,6 +188,7 @@ create index CREATION_FK_IND
 
 ##Recette
 insert into recette values ("Dorade au four", 35, 4);
+insert into recette values ("Pâtes Carbonara", 30, 2);
 
 
 ##Cuisinier
@@ -214,6 +209,18 @@ insert into etaperecette values(3, 3, "Mettre au four une trentaine de minutes �
 insert into etaperecette values(4, 4, "Servir avec du riz blanc.", "Dorade au four");
 
 
+insert into etaperecette values(5, 1, "Cuire les pâtes dans un grand volume d'eau bouillante salée.", "Pâtes Carbonara");
+
+insert into etaperecette values(6, 2, "Emincer les oignons et les faire revenir à la poêle. Dès qu'ils ont bien dorés, y ajouter les lardons.", "Pâtes Carbonara");
+
+insert into etaperecette values(7, 3, "Préparer dans un saladier la crème fraîche, les oeufs, le sel, le poivre et mélanger.", "Pâtes Carbonara");
+
+insert into etaperecette values(8, 4, "Retirer les lardons du feu dès qu'ils sont dorés et les ajouter à la crème.", "Pâtes Carbonara");
+
+insert into etaperecette values(9, 5, "Une fois les pâtes cuite al dente, les égoutter et y incorporer la crème. Remettre sur le feu si le plat a refroidi.", "Pâtes Carbonara");
+
+insert into etaperecette values(10, 6, "Servir et bon appétit ! Vous pouvez également agrémenter votre plat avec des champignons.", "Pâtes Carbonara");
+
 ##ordrepreparation
 insert into ordrepreparation values (1, "Dorade au four", 002, 7.5, "2019-07-25", "2019-08-25", "2019-07-26", 40, "", "", true);
 
@@ -225,8 +232,7 @@ insert into localite values (6890, "Kelkpar");
 ##fournisseur
 insert into fournisseur values ("0477265478", "Bush", "Buisson", "bushbuisson@gmail.com", 47, "Rue de la Forêt", 6890, "Kelkpar");
 
-
-
+##Composition
 
 
 
@@ -239,85 +245,38 @@ from recette, etaperecette
 where etaperecette.recette_label = recette.recettelabel
 order by numeroetape;
 
+//Sélectionne les étapes de la recette souhaitée
+select numeroetape, descriptionetape
+from  etaperecette
+where recette_label = "Dorade au four"
+order by numeroetape;
 
+select numeroetape, descriptionetape
+from recette, etaperecette
+where etaperecette.recette_label = "Dorade au four";
 
+//trouve les étapes pour une recette
+     select numeroetape, descriptionetape
+from recette, etaperecette
+where etaperecette.recette_label = recette.recettelabel
+order by numeroetape;
 
 //Sélectionne les étapes de la recette souhaitée
 select descriptionetape
 from recette, etaperecette
 where etaperecette.recette_label = "Dorade au four";
 
-
-
-
 select numeroetape, descriptionetape
 from recette, etaperecette
 where etaperecette.recette_label = "Dorade au four";
-
 
 //Trouve les lignes de commande pour une commande
 select lc.ingredientlabel, lc.quantite, c.code
 from lignecommande lc, commande c
 where lc.code = c.code;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //TODO 
-    #1 : JTable s'affiche quand je redimensionne la fenêtre
-    #2 : Implémenter le Design Pattern DAO (Interfaces dans la couche dataAccess)
-
-
-
-
-
-
-public Order(Integer code, Integer numberPortions, double pricePortion, GregorianCalendar productionDate, GregorianCalendar expiryDate, GregorianCalendar saleDate, String chiefCommentary,
-                  String cookCommentary, boolean isUrgent, String cookIdNumber, String labelRecipe){
-        this.code = code;
-        this.numberPortions = numberPortions;
-        this.pricePortion = pricePortion;
-        this.productionDate = productionDate;
-        this.expiryDate = expiryDate;
-        this.saleDate = saleDate;
-        this.chiefCommentary = chiefCommentary;
-        this.cookCommentary = cookCommentary;
-        this.isUrgent = isUrgent;
-        this.cookIdNumber = cookIdNumber;
-        this.labelRecipe = labelRecipe;
-    }
-    public Order(Integer code){ //Utilisé lorsqu'on demande à avoir tous les ordres. On initialise l'objet avec son code uniquement. Le reste se fait via settors
-        this.code = code;
-    }
-
-
-
-    //TODO 
-    #1 : JTable s'affiche quand je redimensionne la fenêtre
-    #2 : Implémenter le Design Pattern DAO (Interfaces dans la couche dataAccess)
+//Sélectionner la dernière ligne d'une table
+SELECT code
+FROM commande
+ORDER BY code DESC
+LIMIT 1;

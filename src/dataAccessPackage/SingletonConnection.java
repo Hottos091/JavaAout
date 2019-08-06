@@ -11,7 +11,7 @@ public class SingletonConnection {
         if (uniqueConnection == null){ //La connexion n'existe pas encore. Il faut donc (essayer de) créer la connexion à la BD
             try {
                 uniqueConnection = DriverManager.getConnection(
-                        "jdbc:mysql://localhost:3306/test3?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC",
+                        "jdbc:mysql://localhost:3306/test4?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC",
                         "root",
                         "Bk645yRp");
             } catch (SQLException e){ //En cas d'échec de la connexion à la BD

@@ -8,7 +8,6 @@ public class Order {
     private GregorianCalendar transactionDate;
     private Supplier supplier;
 
-
     //SETTORS
     public void setTransactionDate(GregorianCalendar transactionDate) {
         this.transactionDate = transactionDate;

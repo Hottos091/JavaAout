@@ -36,4 +36,28 @@ public class CookDBAccess {
         }
         return allCooks;
     }
+
+    public Integer getCookId(String firstname, String name) {
+        Integer cookId = null;
+
+        Connection connection = SingletonConnection.getInstance();
+        ResultSet dataRS = null;
+
+        String sql = "SELECT matricule " +
+                "FROM cuisinier " +
+                "WHERE cuisinier.nom=" +"'" + name + "'" +
+                " AND cuisinier.prenom=" + "'" + firstname + "';";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            dataRS = statement.executeQuery();
+            while(dataRS.next()) {
+                cookId = dataRS.getInt("matricule");
+            }
+        } catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return cookId;
+    }
 }

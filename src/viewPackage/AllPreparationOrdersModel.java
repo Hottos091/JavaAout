@@ -78,6 +78,9 @@ public class AllPreparationOrdersModel extends AbstractTableModel {
         return c;
     }
 
-
+    public void removeRow(int row) {
+        contents.remove(row);
+        fireTableRowsDeleted(row, row);
+    }
 
 }

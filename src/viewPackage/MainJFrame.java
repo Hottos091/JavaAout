@@ -13,10 +13,9 @@ public class MainJFrame extends JFrame {
     private JMenuItem exit, newPreparationOrder, deleteOrder, modifyOrder, listingOrder, firstSearch, secondSearch, thirdSearch, help, newOrder;
     private Container container;
     private AllPreparationOrdersPanel allPreparationOrdersPanel;
-    //private RecipePanel recipePanel;
-    //private OrderPreparationPanel orderPreparationPanel;
     private NewOrderPanel newOrderPanel;
     private NewPreparationOrderPanel newPreparationOrderPanel;
+    private ModifyOrderPanel modifyOrderPanel;
     private ApplicationController applicationController;
 
     public MainJFrame(){
@@ -57,9 +56,17 @@ public class MainJFrame extends JFrame {
                 container.add(newPreparationOrderPanel);
             }
         });
-
+        //TODO un ecouteur auquel on passe le panneau à devoir affiche. Car les écouteurs font tous la même chose, seul le panneau change.
         modifyOrder = new JMenuItem("Modifier");
+        modifyOrder.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                container.removeAll();
+                modifyOrderPanel = new ModifyOrderPanel(applicationController);
+                container.add(modifyOrderPanel);
+            }
+        });
         preparationOrderMenu.add(modifyOrder);
+
 
         deleteOrder = new JMenuItem("Supprimer");
         preparationOrderMenu.add(deleteOrder);

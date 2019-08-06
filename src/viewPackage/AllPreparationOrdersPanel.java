@@ -33,4 +33,13 @@ public class AllPreparationOrdersPanel extends JPanel {
         this.add(table);
         this.setVisible(true);
     }
+
+
+    public JTable getTable(){
+        return table;
+    }
+
+    public AllPreparationOrdersModel getModel(){
+        return model;
+    }
 }

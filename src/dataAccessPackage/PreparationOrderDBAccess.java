@@ -19,7 +19,7 @@ public class PreparationOrderDBAccess {
         PreparationOrder preparationOrder;
         String code;
         String orderRecipeLabel;
-        String idCook;
+        Integer idCook;
         double pricePortion;
         java.sql.Date productionDate;
         java.sql.Date expiryDate;
@@ -46,7 +46,7 @@ public class PreparationOrderDBAccess {
                 orderRecipeLabel = data.getString("ordrerecettelabel");
                 preparationOrder.setLabelRecipe(orderRecipeLabel);
 
-                idCook = data.getString("matriculecuisinier");
+                idCook = data.getInt("matriculecuisinier");
                 preparationOrder.setCookIdNumber(idCook);
 
                 pricePortion = data.getDouble("prixportion");
@@ -91,5 +91,51 @@ public class PreparationOrderDBAccess {
             System.out.println(e.getMessage());
         }
         return allPreparationOrders;
+    }
+
+    public void addPreparationOrder(PreparationOrder preparationOrder){
+        Connection connection = SingletonConnection.getInstance();
+
+        java.sql.Date prodSqlDate = new java.sql.Date(preparationOrder.getProductionDate().getTimeInMillis());
+        java.sql.Date expirySqlDate = new java.sql.Date(preparationOrder.getExpiryDate().getTimeInMillis());
+        java.sql.Date saleSqlDate = new java.sql.Date(preparationOrder.getSaleDate().getTimeInMillis());
+        preparationOrder.setUrgent(true);
+        String sql = "INSERT INTO ordrepreparation (ordrerecettelabel, matriculecuisinier, prixportion, " +
+                "dateproduction, dateperemption, datevente, nombreportions, commentairechefcuisinier, " +
+                "commentairecuisinier, esturgent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            statement.setString(1, preparationOrder.getLabelRecipe());
+            statement.setInt(2, preparationOrder.getCookIdNumber());
+            statement.setDouble(3, preparationOrder.getPricePortion());
+            statement.setDate(4, prodSqlDate);
+            statement.setDate(5, expirySqlDate);
+            statement.setDate(6, saleSqlDate);
+            statement.setInt(7, preparationOrder.getNumberPortions());
+            statement.setString(8, preparationOrder.getChiefCommentary());
+            statement.setString(9, preparationOrder.getCookCommentary());
+            statement.setBoolean(10, preparationOrder.getIsUrgent());
+
+            statement.executeUpdate();
+        } catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void deletePreparationOrder(Integer preparationOrderId) {
+        Connection connection = SingletonConnection.getInstance();
+
+        String sql = "DELETE FROM ordrepreparation WHERE code='" + preparationOrderId + "';";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            statement.executeUpdate();
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+
     }
 }

@@ -52,6 +52,12 @@ public class ApplicationController {
     public ArrayList<PreparationOrder> getAllPreparationOrders() { //TODO throws exceptionGetAllOrder
         return preparationOrderManager.getAllPreparationOrders();
     }
+    public void addPreparationOrder(PreparationOrder preparationOrder){
+        preparationOrderManager.addPreparationOrder(preparationOrder);
+    }
+    public void deletePreparationOrder(Integer preparationOrderId){
+        preparationOrderManager.deletePreparationOrder(preparationOrderId);
+    }
 
     //INGREDIENT
     public ArrayList<Ingredient> getAllIngredients(){
@@ -79,8 +85,10 @@ public class ApplicationController {
         return recipeStepManager.getRecipeSteps(recipelabel);
     }
 
-    //COOk
+    //COOK
     public ArrayList<String> getAllCooks(){
         return cookManager.getAllCooks();
     }
+
+    public Integer getCookId(String firstname, String lastname) { return cookManager.getCookId(firstname, lastname); }
 }

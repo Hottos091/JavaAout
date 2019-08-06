@@ -11,7 +11,12 @@ public class CookManager {
     public CookManager(){
     this.cookDBAccess = new CookDBAccess();
     }
+
     public ArrayList<String> getAllCooks(){
         return cookDBAccess.getAllCooks();
     }
+
+    public Integer getCookId(String firstname, String lastname){ return cookDBAccess.getCookId(firstname, lastname); }
 }
+
+

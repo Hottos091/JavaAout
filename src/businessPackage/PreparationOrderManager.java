@@ -17,4 +17,10 @@ public class PreparationOrderManager {
     public ArrayList<PreparationOrder> getAllPreparationOrders(){
         return preparationOrderDB.getAllPreparationOrders();
     }
+    public void addPreparationOrder(PreparationOrder preparationOrder){
+        preparationOrderDB.addPreparationOrder(preparationOrder);
+    }
+    public void deletePreparationOrder(Integer preparationOrderId){
+        preparationOrderDB.deletePreparationOrder(preparationOrderId);
+    }
 }

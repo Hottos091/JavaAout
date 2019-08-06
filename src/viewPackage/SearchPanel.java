@@ -1,5 +1,9 @@
 package viewPackage;
 
-public class SearchPanel {
+import javax.swing.*;
+
+public class SearchPanel extends JPanel {
+    
+    
 
 }
