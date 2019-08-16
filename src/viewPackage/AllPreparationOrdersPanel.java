@@ -24,7 +24,7 @@ public class AllPreparationOrdersPanel extends JPanel {
         model = new AllPreparationOrdersModel(allPreparationOrders);
         table = new JTable(model);
         table.setLayout(new BorderLayout());
-        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setSelectionMode(listSelectionModel.SINGLE_SELECTION);
 
         listSelectionModel = table.getSelectionModel();
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);

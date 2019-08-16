@@ -58,6 +58,9 @@ public class ApplicationController {
     public void deletePreparationOrder(Integer preparationOrderId){
         preparationOrderManager.deletePreparationOrder(preparationOrderId);
     }
+    public void modifyPreparationOrder(PreparationOrder preparationOrder){
+        preparationOrderManager.modifyPreparationOrder(preparationOrder);
+    }
 
     //INGREDIENT
     public ArrayList<Ingredient> getAllIngredients(){
@@ -88,6 +91,9 @@ public class ApplicationController {
     //COOK
     public ArrayList<String> getAllCooks(){
         return cookManager.getAllCooks();
+    }
+    public String getCookName(Integer cookId){
+        return cookManager.getCookName(cookId);
     }
 
     public Integer getCookId(String firstname, String lastname) { return cookManager.getCookId(firstname, lastname); }

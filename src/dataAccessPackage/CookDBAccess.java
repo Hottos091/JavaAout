@@ -16,8 +16,6 @@ public class CookDBAccess {
         Connection connection = SingletonConnection.getInstance();
         ResultSet dataRS = null;
 
-        String labelRecipe;
-
         String sql = "SELECT prenom, nom FROM cuisinier;";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -35,6 +33,32 @@ public class CookDBAccess {
             System.out.println(e.getMessage());
         }
         return allCooks;
+    }
+
+    public String getCookName(Integer cookId){
+        Connection connection = SingletonConnection.getInstance();
+
+        ResultSet dataRS = null;
+        String fullName = null;
+
+        String sql = "SELECT prenom, nom FROM cuisinier WHERE matricule = ?;";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, cookId);
+            dataRS = statement.executeQuery();
+            while (dataRS.next()) {
+                String name;
+                String firstname;
+
+                name = dataRS.getString("nom");
+                firstname = dataRS.getString("prenom");
+
+                fullName = firstname + " " + name;
+            }
+        } catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return fullName;
     }
 
     public Integer getCookId(String firstname, String name) {

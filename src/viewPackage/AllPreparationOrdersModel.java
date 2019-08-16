@@ -44,9 +44,9 @@ public class AllPreparationOrdersModel extends AbstractTableModel {
             case 1 : return preparationOrder.getLabelRecipe();
             case 2 : return preparationOrder.getCookIdNumber();
             case 3 : return preparationOrder.getPricePortion();
-            case 4 : return preparationOrder.getProductionDate();
-            case 5 : return preparationOrder.getExpiryDate();
-            case 6 : return preparationOrder.getSaleDate();
+            case 4 : return preparationOrder.getProductionDate().getTime();
+            case 5 : return preparationOrder.getExpiryDate().getTime();
+            case 6 : return preparationOrder.getSaleDate().getTime();
             case 7 : return preparationOrder.getNumberPortions();
             case 8 : { if (preparationOrder.getChiefCommentary() != null)
                 return preparationOrder.getChiefCommentary();

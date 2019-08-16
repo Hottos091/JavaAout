@@ -4,7 +4,7 @@ package modelPackage;
 import java.util.GregorianCalendar;
 
 public class PreparationOrder {
-    private String code;
+    private Integer code;
     private Integer numberPortions;
     private double pricePortion;
     private GregorianCalendar productionDate;
@@ -18,7 +18,7 @@ public class PreparationOrder {
 
 
     //GETTORS
-    public String getCode() {
+    public Integer getCode() {
         return code;
     }
 
@@ -67,7 +67,7 @@ public class PreparationOrder {
     }*/
 
     //SETTORS
-    public void setCode(String code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 

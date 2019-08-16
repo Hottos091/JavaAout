@@ -19,6 +19,9 @@ import java.util.GregorianCalendar;
 public class NewPreparationOrderPanel extends JPanel {
     private ApplicationController applicationController;
 
+    private Boolean modification = false;
+    private Integer code;
+
     //Recipe
     private JLabel labelRecipe, labelPrepTime, labelRecipeSteps, labelNbPeople, labelValueNbPeople, labelValuePrepTime;
     private JComboBox comboBoxRecipe;
@@ -230,6 +233,24 @@ public class NewPreparationOrderPanel extends JPanel {
         this.add(splitPane, BorderLayout.CENTER);
     }
 
+    public NewPreparationOrderPanel(ApplicationController applicationController, PreparationOrder preparationOrder){
+        this(applicationController);
+
+        modification = true;
+
+        code = preparationOrder.getCode();
+        comboBoxRecipe.setSelectedItem(preparationOrder.getLabelRecipe());
+        fieldNbPortions.setText(Integer.toString(preparationOrder.getNumberPortions()));
+        fieldPrice.setText(Double.toString(preparationOrder.getPricePortion()));
+        comboBoxCook.setSelectedItem(applicationController.getCookName(preparationOrder.getCookIdNumber()));
+        checkIsUrgent.setSelected(preparationOrder.getIsUrgent());
+        areaChiefComm.setText(preparationOrder.getChiefCommentary());
+        areaCookComm.setText(preparationOrder.getCookCommentary());
+        spinnerProdDate.setValue(preparationOrder.getProductionDate().getTime());
+        spinnerExpiryDate.setValue(preparationOrder.getExpiryDate().getTime());
+        spinnerSaleDate.setValue(preparationOrder.getSaleDate().getTime());
+    }
+
     private class ButtonConfirmListener implements ActionListener{
         public void actionPerformed(ActionEvent e){
             try {
@@ -241,7 +262,7 @@ public class NewPreparationOrderPanel extends JPanel {
                 Integer nbPortions = Integer.parseInt(fieldNbPortions.getText());
                 Double pricePortion = Double.parseDouble(fieldPrice.getText());
                 String cook = String.valueOf(comboBoxCook.getSelectedItem());
-                //Boolean isUrgent = Boolean.valueOf(checkIsUrgent.get)
+                Boolean isUrgent = checkIsUrgent.isSelected();
                 //Date
                 GregorianCalendar productionCalendar = new GregorianCalendar();
                 GregorianCalendar expiryCalendar = new GregorianCalendar();
@@ -268,7 +289,14 @@ public class NewPreparationOrderPanel extends JPanel {
                 preparationOrder.setCookCommentary(cookComm);
                 preparationOrder.setChiefCommentary(chiefComm);
 
-                applicationController.addPreparationOrder(preparationOrder);
+                if(modification){
+                    preparationOrder.setCode(code);
+                    applicationController.modifyPreparationOrder(preparationOrder);
+                    modification = false;
+
+                } else {
+                    applicationController.addPreparationOrder(preparationOrder);
+                }
             } catch(Exception e1){
                 System.out.println(e1.getMessage());
             }

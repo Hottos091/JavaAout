@@ -1,5 +1,6 @@
 package dataAccessPackage;
 
+import controllerPackage.ApplicationController;
 import modelPackage.*;
 
 import java.sql.Connection;
@@ -17,7 +18,7 @@ public class PreparationOrderDBAccess {
         ResultSet data = null;
         //Données query
         PreparationOrder preparationOrder;
-        String code;
+        Integer code;
         String orderRecipeLabel;
         Integer idCook;
         double pricePortion;
@@ -40,7 +41,7 @@ public class PreparationOrderDBAccess {
             while (data.next()) {
                 preparationOrder = new PreparationOrder();
 
-                code = data.getString("code");
+                code = data.getInt("code");
                 preparationOrder.setCode(code);
 
                 orderRecipeLabel = data.getString("ordrerecettelabel");
@@ -93,7 +94,7 @@ public class PreparationOrderDBAccess {
         return allPreparationOrders;
     }
 
-    public void addPreparationOrder(PreparationOrder preparationOrder){
+    public void addPreparationOrder(PreparationOrder preparationOrder) {
         Connection connection = SingletonConnection.getInstance();
 
         java.sql.Date prodSqlDate = new java.sql.Date(preparationOrder.getProductionDate().getTimeInMillis());
@@ -119,7 +120,7 @@ public class PreparationOrderDBAccess {
             statement.setBoolean(10, preparationOrder.getIsUrgent());
 
             statement.executeUpdate();
-        } catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -133,9 +134,49 @@ public class PreparationOrderDBAccess {
             PreparedStatement statement = connection.prepareStatement(sql);
 
             statement.executeUpdate();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
 
+    }
+
+    public void modifyPreparationOrder(PreparationOrder preparationOrder) {
+        Connection connection = SingletonConnection.getInstance();
+
+        java.sql.Date prodSqlDate = new java.sql.Date(preparationOrder.getProductionDate().getTimeInMillis());
+        java.sql.Date expirySqlDate = new java.sql.Date(preparationOrder.getExpiryDate().getTimeInMillis());
+        java.sql.Date saleSqlDate = new java.sql.Date(preparationOrder.getSaleDate().getTimeInMillis());
+
+        String sql = "UPDATE ordrepreparation " +
+                "SET ordrerecettelabel = ?" +
+                ", matriculecuisinier = ?" +
+                ", prixportion = ?" +
+                ", dateproduction = ?" +
+                ", dateperemption = ?" +
+                ", datevente = ?" +
+                ", nombreportions = ?" +
+                ", commentairechefcuisinier = ?" +
+                ", commentairecuisinier = ?" +
+                ", esturgent = ?" +
+                " where code = ?;";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            statement.setString(1, preparationOrder.getLabelRecipe());
+            statement.setInt(2, preparationOrder.getCookIdNumber());
+            statement.setDouble(3, preparationOrder.getPricePortion());
+            statement.setDate(4, prodSqlDate);
+            statement.setDate(5, expirySqlDate);
+            statement.setDate(6, saleSqlDate);
+            statement.setInt(7, preparationOrder.getNumberPortions());
+            statement.setString(8, preparationOrder.getChiefCommentary());
+            statement.setString(9, preparationOrder.getCookCommentary());
+            statement.setBoolean(10, preparationOrder.getIsUrgent());
+            statement.setInt(11, preparationOrder.getCode());
+
+            statement.executeUpdate();
+        } catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
     }
 }

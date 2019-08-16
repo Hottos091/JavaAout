@@ -200,26 +200,33 @@ insert into cuisinier values(003, "Spahyd", "Erman", 001);
 
 
 ##etaperecette
-insert into etaperecette values(1, 1, "Découper la carotte en tranches fines, le fenouil en lanière minces. Hacher l\'oignon et l\'ail. Déposer le poisson dans un plat allant au four, parsemer avec les légumes", "Dorade au four");
 
-insert into etaperecette values(2, 2, "Saler, poivrer, verser le jus du 1/2 citron, ajouter un bon filet d\'huile d\'olive.", "Dorade au four");
+insert into etaperecette values(1, 1, "Préchauffez le four à 180°C", "Dorade au four");
 
-insert into etaperecette values(3, 3, "Mettre au four une trentaine de minutes à 180°C (thermostat 6) en surveillant la cuisson. Réduire si les légumes brunissent trop.", "Dorade au four");
+insert into etaperecette values(2, 2, "Rincez le poisson", "Dorade au four");
 
-insert into etaperecette values(4, 4, "Servir avec du riz blanc.", "Dorade au four");
+insert into etaperecette values(3, 3, "Epluchez l\'oignon et émincez le finement. Déposez le dans le fond d'un plat à four", "Dorade au four");
+
+insert into etaperecette values(4, 4, "Déposez les dorades par dessus", "Dorade au four");
+
+insert into etaperecette values(5, 5, "Disposez dans les dorades l\'ail haché, les herbes de provence ou le thym et les feuilles de laurier, puis garnissez les également de tranches de citron", "Dorade au four");
+
+insert into etaperecette values(6, 6, "Salez et poivrez", "Dorade au four");
+
+insert into etaperecette values(7, 7, "Arrosez d'un filet d'huile d'olive", "Dorade au four");
+
+insert into etaperecette values(8, 8, "Déposez un fond d'eau dans le plat à four", "Dorade au four");
+
+insert into etaperecette values(9, 9, "Enfournez 30 minutes", "Dorade au four");
 
 
-insert into etaperecette values(5, 1, "Cuire les pâtes dans un grand volume d'eau bouillante salée.", "Pâtes Carbonara");
+insert into etaperecette values(10, 1, "Cuire les pâtes dans un grand volume d'eau bouillante salée.", "Pâtes Carbonara");
 
-insert into etaperecette values(6, 2, "Emincer les oignons et les faire revenir à la poêle. Dès qu'ils ont bien dorés, y ajouter les lardons.", "Pâtes Carbonara");
+insert into etaperecette values(11, 2, "Pendant ce temps, faire dorer les lardons dans une poêle à sec.", "Pâtes Carbonara");
 
-insert into etaperecette values(7, 3, "Préparer dans un saladier la crème fraîche, les oeufs, le sel, le poivre et mélanger.", "Pâtes Carbonara");
+insert into etaperecette values(12, 3, "Lorsqu'ils sont dorés, ajouter la crème et laisser mijoter durant 10 minutes.", "Pâtes Carbonara");
 
-insert into etaperecette values(8, 4, "Retirer les lardons du feu dès qu'ils sont dorés et les ajouter à la crème.", "Pâtes Carbonara");
-
-insert into etaperecette values(9, 5, "Une fois les pâtes cuite al dente, les égoutter et y incorporer la crème. Remettre sur le feu si le plat a refroidi.", "Pâtes Carbonara");
-
-insert into etaperecette values(10, 6, "Servir et bon appétit ! Vous pouvez également agrémenter votre plat avec des champignons.", "Pâtes Carbonara");
+insert into etaperecette values(13, 4, "Egoutter les pâtes, les verser dans la sauce, ajouter l'oeuf battu, mélanger et servir saupoudrer de fromage.", "Pâtes Carbonara");
 
 ##ordrepreparation
 insert into ordrepreparation values (1, "Dorade au four", 002, 7.5, "2019-07-25", "2019-08-25", "2019-07-26", 40, "", "", true);
@@ -233,6 +240,26 @@ insert into localite values (6890, "Kelkpar");
 insert into fournisseur values ("0477265478", "Bush", "Buisson", "bushbuisson@gmail.com", 47, "Rue de la Forêt", 6890, "Kelkpar");
 
 ##Composition
+
+insert into Composition values
+('Pâtes', 'Pâtes Carbonara', 350),
+('Lardon', 'Pâtes Carbonara', 90),
+('Oeuf', 'Pâtes Carbonara', 1),
+('Crème fraîche', 'Pâtes Carbonara', 15),
+('Gruyère râpé', 'Pâtes Carbonara', 50),
+('Poivre', 'Pâtes Carbonara', 0),
+('Sel', 'Pâtes Carbonara', 0);
+
+insert into Composition values
+('Dorade', 'Dorade au four', 2),
+('Citron', 'Dorade au four', 1),
+('Herbes De Provence', 'Dorade au four', 0),
+('Laurier', 'Dorade au four', 2),
+('Ail', 'Dorade au four', 2),
+('Oignon', 'Dorade au four', 1),
+('Sel', 'Dorade au four', 0),
+('Poivre', 'Dorade au four', 0);
+
 
 
 
@@ -280,3 +307,12 @@ SELECT code
 FROM commande
 ORDER BY code DESC
 LIMIT 1;
+
+//Sélectionne les ingrédients d'une recette donnée entre deux dates
+SELECT o.dateproduction, r.recettelabel, i.ingredientlabel, c.quantitenecessaire
+FROM Composition c, Recette r, OrdrePreparation o, Ingredient i
+WHERE c.recettelabel = r.recettelabel
+AND o.ordrerecettelabel = c.recettelabel
+AND i.ingredientlabel = c.ingredientlabel
+AND o.dateproduction BETWEEN "2019-08-08" AND "2019-08-20"
+ORDER BY o.dateproduction, r.recettelabel;

@@ -23,4 +23,7 @@ public class PreparationOrderManager {
     public void deletePreparationOrder(Integer preparationOrderId){
         preparationOrderDB.deletePreparationOrder(preparationOrderId);
     }
+    public void modifyPreparationOrder(PreparationOrder preparationOrder){
+        preparationOrderDB.modifyPreparationOrder(preparationOrder);
+    }
 }

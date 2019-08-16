@@ -15,6 +15,9 @@ public class CookManager {
     public ArrayList<String> getAllCooks(){
         return cookDBAccess.getAllCooks();
     }
+    public String getCookName(Integer cookId){
+        return cookDBAccess.getCookName(cookId);
+    }
 
     public Integer getCookId(String firstname, String lastname){ return cookDBAccess.getCookId(firstname, lastname); }
 }
