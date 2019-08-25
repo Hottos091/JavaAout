@@ -15,6 +15,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class NewPreparationOrderPanel extends JPanel {
@@ -85,10 +86,13 @@ public class NewPreparationOrderPanel extends JPanel {
         spinnerModelSale = new SpinnerDateModel();
         spinnerExpiryDate = new JSpinner(spinnerModelExpiry);
         spinnerExpiryDate.setEditor(new JSpinner.DateEditor(spinnerExpiryDate, simpleDateFormat.toPattern()));
+        spinnerExpiryDate.setBackground(Color.LIGHT_GRAY);
         spinnerProdDate = new JSpinner(spinnerModelProduction);
         spinnerProdDate.setEditor(new JSpinner.DateEditor(spinnerProdDate, simpleDateFormat.toPattern()));
+        spinnerProdDate.setBackground(Color.LIGHT_GRAY);
         spinnerSaleDate = new JSpinner(spinnerModelSale);
         spinnerSaleDate.setEditor(new JSpinner.DateEditor(spinnerSaleDate, simpleDateFormat.toPattern()));
+        spinnerSaleDate.setBackground(Color.LIGHT_GRAY);
         //CheckBox
         checkIsUrgent = new JCheckBox("Urgent");
         //ComboBox
@@ -261,8 +265,9 @@ public class NewPreparationOrderPanel extends JPanel {
 
     private class ButtonConfirmListener implements ActionListener{
         public void actionPerformed(ActionEvent e){
-            boolean error = false;
             try {
+
+
                 String recipe = String.valueOf(comboBoxRecipe.getSelectedItem());
                 String chiefComm = areaChiefComm.getText();
                 String cookComm = areaCookComm.getText();
@@ -274,7 +279,8 @@ public class NewPreparationOrderPanel extends JPanel {
                 GregorianCalendar productionCalendar = new GregorianCalendar();
                 GregorianCalendar expiryCalendar = new GregorianCalendar();
                 GregorianCalendar saleCalendar = new GregorianCalendar();
-
+                spinnerProdDate.revalidate();
+                spinnerSaleDate.revalidate();
                 java.util.Date prodDateSpinner = (java.util.Date) spinnerProdDate.getValue();
                 java.util.Date saleDateSpinner = (java.util.Date) spinnerSaleDate.getValue();
                 java.util.Date expiryDateSpinner = (java.util.Date) spinnerExpiryDate.getValue();

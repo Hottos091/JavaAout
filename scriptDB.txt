@@ -12,7 +12,7 @@ use test4;
 
 create table Commande (
      code int not null auto_increment,
-     datetransaction date not null,
+     datetransaction timestamp not null,
      numtelfournisseur varchar(64) not null,
      constraint COMMANDE_PK primary key (code));
 
@@ -67,9 +67,9 @@ create table OrdrePreparation (
      ordrerecettelabel varchar(64) not null,
      matriculecuisinier int not null,
      prixportion double not null,
-     dateproduction date not null,
-     dateperemption date not null,
-     datevente date not null,
+     dateproduction timestamp not null,
+     dateperemption timestamp not null,
+     datevente timestamp not null,
      nombreportions integer not null,
      commentairechefcuisinier varchar(255),
      commentairecuisinier varchar(255),

@@ -1,6 +1,7 @@
 package viewPackage;
 
 import controllerPackage.ApplicationController;
+import viewPackage.Thread.ArcPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,12 +20,21 @@ public class MainJFrame extends JFrame {
     private ResearchPanel searchPanel;
     private ApplicationController applicationController;
 
+    private WelcomePanel welcomePanel;
+    private JPanel panelArc;
+
     public MainJFrame(){
         //Appel au constructeur de la classe JFrame (prend un titre en argument)
         super ("Grand Bazar - Service Traiteur");
         //Définition de la taille et position de la fenêtre
         this.setBounds(100,100, 1024, 800);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        this.setLayout(new BorderLayout());
+        this.welcomePanel = new WelcomePanel();
+        this.add(welcomePanel, BorderLayout.NORTH);
+        welcomePanel.setVisible(true);
+
 
         this.applicationController = new ApplicationController();
         container = getContentPane();
@@ -111,7 +121,8 @@ public class MainJFrame extends JFrame {
                 container.revalidate();
             }
         });
-
+        panelArc = new ArcPanel();
+        this.add(panelArc, BorderLayout.CENTER);
         this.setVisible(true);
     }
     private class ExitListener implements ActionListener  {
