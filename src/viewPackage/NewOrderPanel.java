@@ -43,6 +43,7 @@ public class NewOrderPanel extends JPanel {
         labelSupplyDate = new JLabel("Date de livraison : ");
         //Buttons
         buttonShowList = new JButton("Voir liste");
+        buttonShowList.addActionListener(new ButtonShowListListener());
 
         buttonAddToList = new JButton("Ajouter à la liste");
         buttonAddToList.addActionListener(new ButtonAddToListListener());
@@ -131,7 +132,22 @@ public class NewOrderPanel extends JPanel {
 
 
 
+    private class ButtonShowListListener implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+            JFrame listJFrame = new JFrame("Panier");
+            listJFrame.setBounds(150,150,500,600);
+            OrderListModel model = new OrderListModel(orderLines);
+            JTable table = new JTable(model);
 
+            JScrollPane scrollPane = new JScrollPane(table);
+            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+
+            listJFrame.add(scrollPane);
+            scrollPane.setVisible(true);
+            listJFrame.setVisible(true);
+
+        }
+    }
     private class ButtonAddToListListener implements ActionListener {
         public void actionPerformed(ActionEvent e){
             try {
@@ -165,10 +181,10 @@ public class NewOrderPanel extends JPanel {
 
                 applicationController.addOrder(supplierId);
                 applicationController.addOrderLines(orderLines, applicationController.getLastId());
+                applicationController.addQuantity(orderLines);
 
-                JOptionPane.showMessageDialog(null, "Commande confirmée !");
             } catch (DataException de) {
-                System.out.println(de.getMessage());
+               JOptionPane.showMessageDialog(null, de.getMessage(), "Erreur", 0);
             }
         }
     }

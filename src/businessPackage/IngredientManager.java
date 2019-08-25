@@ -4,6 +4,7 @@ import dataAccessPackage.IngredientDBAccess;
 import dataAccessPackage.IngredientDBAccessDA;
 import exceptionPackage.DataException;
 import modelPackage.Ingredient;
+import modelPackage.OrderLine;
 
 import java.util.ArrayList;
 
@@ -16,5 +17,8 @@ public class IngredientManager {
 
     public ArrayList<Ingredient> getAllIngredients() throws DataException {
         return ingredientDBAccessDA.getAllIngredients();
+    }
+    public void addQuantity(ArrayList<OrderLine> orderLines) throws DataException{
+        ingredientDBAccessDA.addQuantity(orderLines);
     }
 }

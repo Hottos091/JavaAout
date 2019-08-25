@@ -10,13 +10,13 @@ import java.awt.event.ActionListener;
 public class MainJFrame extends JFrame {
     private JMenuBar menuBar;
     private JMenu preparationOrderMenu, searchMenu, helpMenu, orderMenu;
-    private JMenuItem exit, newPreparationOrder, modifyPreparationOrder, listingPreparationOrder, secondSearch, help, newOrder;
+    private JMenuItem exit, newPreparationOrder, modifyPreparationOrder, listingPreparationOrder, research, newOrder;
     private Container container;
     private AllPreparationOrdersPanel allPreparationOrdersPanel;
     private NewOrderPanel newOrderPanel;
     private NewPreparationOrderPanel newPreparationOrderPanel;
     private ModifyOrderPanel modifyOrderPanel;
-    private SearchPanel searchPanel;
+    private ResearchPanel searchPanel;
     private ApplicationController applicationController;
 
     public MainJFrame(){
@@ -40,11 +40,11 @@ public class MainJFrame extends JFrame {
         searchMenu = new JMenu("Recherches");
         menuBar.add(searchMenu);
 
-        helpMenu = new JMenu("Infos");
-        menuBar.add(helpMenu);
-
         orderMenu = new JMenu("Commande");
         menuBar.add(orderMenu);
+
+        helpMenu = new JMenu("?");
+        menuBar.add(helpMenu);
 
         //Instanciations des JMenuItems
         //Ordre de préparation
@@ -59,7 +59,7 @@ public class MainJFrame extends JFrame {
             }
         });
         //TODO un ecouteur auquel on passe le panneau à devoir affiche. Car les écouteurs font tous la même chose, seul le panneau change.
-        modifyPreparationOrder = new JMenuItem("Modifier");
+        modifyPreparationOrder = new JMenuItem("Modifier/Supprimer");
         modifyPreparationOrder.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 container.removeAll();
@@ -82,23 +82,19 @@ public class MainJFrame extends JFrame {
         });
 
         //Recherches
-        secondSearch = new JMenuItem("Deuxième recherche");
-        secondSearch.addActionListener(new ActionListener() {
+        research = new JMenuItem("Infos ingrédients");
+        research.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 container.removeAll();
-                searchPanel = new SearchPanel(applicationController);
+                searchPanel = new ResearchPanel(applicationController);
                 container.add(searchPanel);
                 container.revalidate();
             }
         });
-        searchMenu.add(secondSearch);
+        searchMenu.add(research);
 
-        //aide
-        help = new JMenuItem("Aide");
-        helpMenu.add(help);
-        helpMenu.addSeparator();
-
+        //Help Menu
         exit = new JMenuItem("Quitter");
         exit.addActionListener(new ExitListener());
         helpMenu.add(exit);

@@ -74,6 +74,10 @@ public class ApplicationController {
     public ArrayList<Ingredient> getAllIngredients() throws DataException{
         return ingredientManager.getAllIngredients();
     }
+    public void addQuantity(ArrayList<OrderLine> orderLines) throws DataException{
+        ingredientManager.addQuantity(orderLines);
+    }
+
 
     //SUPPLIER
     public ArrayList<String> getAllSuppliers() throws DataException{

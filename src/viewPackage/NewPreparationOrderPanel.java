@@ -164,7 +164,10 @@ public class NewPreparationOrderPanel extends JPanel {
         gbc.gridwidth = 1;
         gbc.gridy++;
         orderPreparationPanel.add(buttonConfirm, gbc);
-        //REGION RECIPEPANEL
+
+
+
+        //============== RECIPEPANEL ==============
 
 
         try {
@@ -185,10 +188,10 @@ public class NewPreparationOrderPanel extends JPanel {
         labelValuePrepTime = new JLabel("");
         //ComboBox
         comboBoxRecipe = new JComboBox<String>();
+        comboBoxRecipe.addItemListener(new NewPreparationOrderPanel.ItemChangeListener());
         for(String recipe : allRecipesLabel){
             comboBoxRecipe.addItem(recipe);
         }
-        comboBoxRecipe.addItemListener(new NewPreparationOrderPanel.ItemChangeListener());
         //GridBagLayout
         recipePanel.setLayout(new GridBagLayout());
 
@@ -235,6 +238,7 @@ public class NewPreparationOrderPanel extends JPanel {
 
         this.setLayout(new BorderLayout());
         this.add(splitPane, BorderLayout.CENTER);
+
     }
 
     public NewPreparationOrderPanel(ApplicationController applicationController, PreparationOrder preparationOrder){
@@ -257,6 +261,7 @@ public class NewPreparationOrderPanel extends JPanel {
 
     private class ButtonConfirmListener implements ActionListener{
         public void actionPerformed(ActionEvent e){
+            boolean error = false;
             try {
                 String recipe = String.valueOf(comboBoxRecipe.getSelectedItem());
                 String chiefComm = areaChiefComm.getText();
@@ -300,8 +305,8 @@ public class NewPreparationOrderPanel extends JPanel {
                 } else {
                     applicationController.addPreparationOrder(preparationOrder);
                 }
-            } catch(Exception e1){
-                JOptionPane.showMessageDialog(null, "");
+            } catch(NumberFormatException n){
+                JOptionPane.showMessageDialog(null, "Veuillez entrer un nombre dans les champs requis.", "Mauvais format", 0);
             }
         }
     }
@@ -336,5 +341,8 @@ public class NewPreparationOrderPanel extends JPanel {
 
             }
         }
+
     }
+
+
 }

@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
-public class SearchPanel extends JPanel {
+public class ResearchPanel extends JPanel {
     private ApplicationController applicationController;
 
 
@@ -33,7 +33,7 @@ public class SearchPanel extends JPanel {
     private JTable jtable;
     private JScrollPane scrollPane;
 
-    public SearchPanel(ApplicationController applicationController){
+    public ResearchPanel(ApplicationController applicationController){
         this.applicationController = applicationController;
         this.setLayout(new BorderLayout());
 

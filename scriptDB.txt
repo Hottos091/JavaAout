@@ -74,7 +74,7 @@ create table OrdrePreparation (
      commentairechefcuisinier varchar(255),
      commentairecuisinier varchar(255),
      esturgent boolean not null,
-     constraint ORDREPREPARATION_PK primary key (code, ordrerecettelabel));
+     constraint ORDREPREPARATION_PK primary key (code));
 
 create table Cuisinier (
      matricule int not null,
@@ -148,6 +148,9 @@ create unique index INGREDIENT_PK_IND
 
 create unique index ORDREPREPARATION_PK_IND
      on OrdrePreparation (code);
+
+create unique index ORDREPREPARATION_FK_IND
+    on OrdrePreparation(matriculecuisinier, dateproduction);
 
 create unique index FOURNISSEUR_PK_IND
      on Fournisseur (numtel);
@@ -537,10 +540,6 @@ insert into etaperecette values(12, 3, "Lorsqu'ils sont dorés, ajouter la crèm
 
 insert into etaperecette values(13, 4, "Egoutter les pâtes, les verser dans la sauce, ajouter l'oeuf battu, mélanger et servir saupoudrer de fromage.", "Pâtes Carbonara");
 
-##ordrepreparation
-insert into ordrepreparation values (1, "Dorade au four", 002, 7.5, "2019-07-25", "2019-08-25", "2019-07-26", 40, "", "", true);
-
-
 ##localite
 insert into localite values (6890, "Kelkpar");
 
@@ -557,15 +556,17 @@ insert into Composition values
 ('Oeuf', 'Pâtes Carbonara', 1),
 ('Crème fraîche', 'Pâtes Carbonara', 15),
 ('Gruyère râpé', 'Pâtes Carbonara', 50),
-('Poivre', 'Pâtes Carbonara', 0),
-('Sel', 'Pâtes Carbonara', 0);
+('Poivre', 'Pâtes Carbonara', 15),
+('Sel', 'Pâtes Carbonara', 10);
 
 insert into Composition values
 ('Dorade', 'Dorade au four', 2),
 ('Citron', 'Dorade au four', 1),
-('Herbes De Provence', 'Dorade au four', 0),
-('Laurier', 'Dorade au four', 2),
-('Ail', 'Dorade au four', 2),
-('Oignon', 'Dorade au four', 1),
-('Sel', 'Dorade au four', 0),
-('Poivre', 'Dorade au four', 0);
+('Herbes De Provence', 'Dorade au four', 20),
+('Laurier', 'Dorade au four', 15),
+('Ail', 'Dorade au four', 12),
+('Oignon', 'Dorade au four', 120),
+('Sel', 'Dorade au four', 20),
+('Poivre', 'Dorade au four', 25);
+
+

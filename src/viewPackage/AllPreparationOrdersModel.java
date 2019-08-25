@@ -1,5 +1,6 @@
 package viewPackage;
 
+import controllerPackage.ApplicationController;
 import modelPackage.PreparationOrder;
 
 import javax.swing.table.AbstractTableModel;
@@ -10,13 +11,14 @@ public class AllPreparationOrdersModel extends AbstractTableModel {
 
     private ArrayList<String> columnNames;
     private ArrayList<PreparationOrder> contents;
+    private ApplicationController applicationController;
 
-    public AllPreparationOrdersModel(ArrayList<PreparationOrder> preparationOrders){
+    public AllPreparationOrdersModel(ArrayList<PreparationOrder> preparationOrders, ApplicationController applicationController){
         contents = preparationOrders;
         columnNames = new ArrayList<>();
         columnNames.add("Code");
         columnNames.add("Label recette");
-        columnNames.add("Matricule cuisinier");
+        columnNames.add("Nom cuisinier");
         columnNames.add("Prix portion");
         columnNames.add("Date production");
         columnNames.add("Date de peremption");
@@ -25,6 +27,9 @@ public class AllPreparationOrdersModel extends AbstractTableModel {
         columnNames.add("Commentaire chef cuistot");
         columnNames.add("Commentaire cuisinier");
         columnNames.add("Urgent");
+
+        this.applicationController = applicationController;
+
     }
 
     public int getColumnCount(){
@@ -42,7 +47,7 @@ public class AllPreparationOrdersModel extends AbstractTableModel {
         switch(column){
             case 0 : return preparationOrder.getCode();
             case 1 : return preparationOrder.getLabelRecipe();
-            case 2 : return preparationOrder.getCookIdNumber();
+            case 2 : return applicationController.getCookName(preparationOrder.getCookIdNumber());
             case 3 : return preparationOrder.getPricePortion();
             case 4 : return preparationOrder.getProductionDate().getTime();
             case 5 : return preparationOrder.getExpiryDate().getTime();

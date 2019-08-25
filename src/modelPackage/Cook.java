@@ -21,6 +21,9 @@ public class Cook {
         return firstname;
     }
 
+    public String getFullName() {
+        return name + " " + firstname;
+    }
     public Integer getChiefIdNumber() {
         if(chiefIdNumber!=null) {
             return chiefIdNumber;
