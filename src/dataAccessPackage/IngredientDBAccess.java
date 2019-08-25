@@ -1,6 +1,6 @@
 package dataAccessPackage;
 
-import dataAccessPackage.SingletonConnection;
+import exceptionPackage.DataException;
 import modelPackage.Ingredient;
 
 import java.sql.Connection;
@@ -9,8 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class IngredientDBAccess {
-    public ArrayList<Ingredient> getAllIngredients (){
+public class IngredientDBAccess implements IngredientDBAccessDA{
+    public ArrayList<Ingredient> getAllIngredients () throws DataException {
         ArrayList<Ingredient> allIngredients = new ArrayList<>();
 
         Connection connection = SingletonConnection.getInstance();
@@ -38,7 +38,7 @@ public class IngredientDBAccess {
                 allIngredients.add(ingredient);
             }
         } catch (SQLException e){
-            System.out.println(e.getMessage());
+            throw new DataException("Echec de la saisie des ingrédients.\n");
         }
         return allIngredients;
     }

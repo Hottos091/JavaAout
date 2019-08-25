@@ -1,21 +1,23 @@
 package businessPackage;
 
 import dataAccessPackage.RecipeDBAccess;
+import dataAccessPackage.RecipeDBAccessDA;
+import exceptionPackage.DataException;
 import modelPackage.Recipe;
 
 import java.util.ArrayList;
 
 public class RecipeManager {
-    private RecipeDBAccess recipeDBAccess;
+    private RecipeDBAccessDA recipeDBAccessDA;
 
     public RecipeManager() {
-        this.recipeDBAccess = new RecipeDBAccess();
+        this.recipeDBAccessDA = new RecipeDBAccess();
     }
 
-    public ArrayList<String> getAllRecipesLabels(){
-        return recipeDBAccess.getAllRecipesLabels();
+    public ArrayList<String> getAllRecipesLabels() throws DataException{
+        return recipeDBAccessDA.getAllRecipesLabels();
     }
-    public Recipe getRecipe(String recipeLabel){
-        return recipeDBAccess.getRecipe(recipeLabel);
+    public Recipe getRecipe(String recipeLabel) throws DataException{
+        return recipeDBAccessDA.getRecipe(recipeLabel);
     }
 }

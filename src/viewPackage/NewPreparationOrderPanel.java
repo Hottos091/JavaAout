@@ -1,6 +1,7 @@
 package viewPackage;
 
 import controllerPackage.ApplicationController;
+import exceptionPackage.DataException;
 import modelPackage.Cook;
 import modelPackage.PreparationOrder;
 import modelPackage.Recipe;
@@ -166,8 +167,11 @@ public class NewPreparationOrderPanel extends JPanel {
         //REGION RECIPEPANEL
 
 
-
-        allRecipesLabel = applicationController.getAllRecipesLabels();
+        try {
+            allRecipesLabel = applicationController.getAllRecipesLabels();
+        } catch (DataException de){
+            System.out.println(de.getMessage());
+        }
         //TextArea
         areaRecipeSteps = new JTextArea();
         areaRecipeSteps.setLineWrap(true);
@@ -225,7 +229,7 @@ public class NewPreparationOrderPanel extends JPanel {
         gbc.weightx = 0.5;
         recipePanel.add(areaRecipeSteps, gbc);
 
-        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, recipePanel, orderPreparationPanel);
+        splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, recipePanel, orderPreparationPanel);
         splitPane.setOneTouchExpandable(true);
         splitPane.setDividerLocation(250);
 
@@ -257,8 +261,6 @@ public class NewPreparationOrderPanel extends JPanel {
                 String recipe = String.valueOf(comboBoxRecipe.getSelectedItem());
                 String chiefComm = areaChiefComm.getText();
                 String cookComm = areaCookComm.getText();
-                Integer prepTime = Integer.parseInt(labelValuePrepTime.getText());
-                Integer nbPeople = Integer.parseInt(labelValueNbPeople.getText());
                 Integer nbPortions = Integer.parseInt(fieldNbPortions.getText());
                 Double pricePortion = Double.parseDouble(fieldPrice.getText());
                 String cook = String.valueOf(comboBoxCook.getSelectedItem());
@@ -288,6 +290,7 @@ public class NewPreparationOrderPanel extends JPanel {
                 preparationOrder.setSaleDate(saleCalendar);
                 preparationOrder.setCookCommentary(cookComm);
                 preparationOrder.setChiefCommentary(chiefComm);
+                preparationOrder.setIsUrgent(isUrgent);
 
                 if(modification){
                     preparationOrder.setCode(code);
@@ -298,7 +301,7 @@ public class NewPreparationOrderPanel extends JPanel {
                     applicationController.addPreparationOrder(preparationOrder);
                 }
             } catch(Exception e1){
-                System.out.println(e1.getMessage());
+                JOptionPane.showMessageDialog(null, "");
             }
         }
     }
@@ -312,22 +315,26 @@ public class NewPreparationOrderPanel extends JPanel {
                 ArrayList<RecipeStep> recipeSteps;
                 Recipe recipe;
 
-                System.out.println("Changement détecté");
-
                 areaRecipeSteps.setText(null);
 
-                recipe = applicationController.getRecipe(item.toString());
+                try {
 
-                labelValueNbPeople.setText(Integer.toString(recipe.getNbPeople()));
-                labelValuePrepTime.setText(Integer.toString(recipe.getPreparationTime()));
 
-                recipeSteps = applicationController.getRecipeSteps(item.toString());
+                    recipe = applicationController.getRecipe(item.toString());
 
-                for(RecipeStep step : recipeSteps){
-                    areaRecipeSteps.append(step.toString());
+                    labelValueNbPeople.setText(Integer.toString(recipe.getNbPeople()));
+                    labelValuePrepTime.setText(Integer.toString(recipe.getPreparationTime()));
+
+                    recipeSteps = applicationController.getRecipeSteps(item.toString());
+
+                    for(RecipeStep step : recipeSteps){
+                        areaRecipeSteps.append(step.toString());
+                    }
+                } catch(DataException de){
+                     System.out.println(de.getMessage());
                 }
+
             }
         }
     }
 }
-//TODO Un cuisinier ne peut avoir qu'un ordre par jour. ==> combinaison de la date de production et du matricule unique

@@ -3,13 +3,14 @@ package dataAccessPackage;
 import businessPackage.ConnectionManager;
 import modelPackage.RecipeStep;
 
+import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class RecipeStepDBAccess {
+public class RecipeStepDBAccess implements RecipeStepDBAccessDA{
     public ArrayList<RecipeStep> getRecipeSteps(String recipelabel){
         ArrayList<RecipeStep> recipeSteps = new ArrayList<>();
 
@@ -33,7 +34,7 @@ public class RecipeStepDBAccess {
                 recipeSteps.add(recipeStep);
             }
         } catch(SQLException e){
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Impossible d'obtenir les étapes de la recette.", "Erreur", JOptionPane.ERROR_MESSAGE);
         }
         return recipeSteps;
     }

@@ -1,24 +1,22 @@
 package businessPackage;
 
 import dataAccessPackage.OrderDBAccess;
-import modelPackage.Ingredient;
-import modelPackage.OrderLine;
-
-import java.util.ArrayList;
+import dataAccessPackage.OrderDBAccessDA;
+import exceptionPackage.DataException;
 
 public class OrderManager {
-    private OrderDBAccess orderDBAccess;
+    private OrderDBAccessDA orderDBAccessDA;
 
     public OrderManager(){
-        this.orderDBAccess = new OrderDBAccess();
+        this.orderDBAccessDA = new OrderDBAccess();
     }
 
-    public void addOrder(String supplierId){
-        orderDBAccess.addOrder(supplierId);
+    public void addOrder(String supplierId) throws DataException {
+        orderDBAccessDA.addOrder(supplierId);
     }
 
-    public Integer getLastId(){
-        return orderDBAccess.getLastId();
+    public Integer getLastId() throws DataException{
+        return orderDBAccessDA.getLastId();
     }
 
 

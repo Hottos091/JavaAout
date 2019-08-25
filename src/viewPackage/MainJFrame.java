@@ -10,19 +10,20 @@ import java.awt.event.ActionListener;
 public class MainJFrame extends JFrame {
     private JMenuBar menuBar;
     private JMenu preparationOrderMenu, searchMenu, helpMenu, orderMenu;
-    private JMenuItem exit, newPreparationOrder, deleteOrder, modifyOrder, listingOrder, firstSearch, secondSearch, thirdSearch, help, newOrder;
+    private JMenuItem exit, newPreparationOrder, modifyPreparationOrder, listingPreparationOrder, secondSearch, help, newOrder;
     private Container container;
     private AllPreparationOrdersPanel allPreparationOrdersPanel;
     private NewOrderPanel newOrderPanel;
     private NewPreparationOrderPanel newPreparationOrderPanel;
     private ModifyOrderPanel modifyOrderPanel;
+    private SearchPanel searchPanel;
     private ApplicationController applicationController;
 
     public MainJFrame(){
         //Appel au constructeur de la classe JFrame (prend un titre en argument)
         super ("Grand Bazar - Service Traiteur");
         //Définition de la taille et position de la fenêtre
-        this.setBounds(100,100, 800, 600);
+        this.setBounds(100,100, 1024, 800);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.applicationController = new ApplicationController();
@@ -54,43 +55,44 @@ public class MainJFrame extends JFrame {
                 container.removeAll();
                 newPreparationOrderPanel = new NewPreparationOrderPanel(applicationController);
                 container.add(newPreparationOrderPanel);
+                container.revalidate();
             }
         });
         //TODO un ecouteur auquel on passe le panneau à devoir affiche. Car les écouteurs font tous la même chose, seul le panneau change.
-        modifyOrder = new JMenuItem("Modifier");
-        modifyOrder.addActionListener(new ActionListener(){
+        modifyPreparationOrder = new JMenuItem("Modifier");
+        modifyPreparationOrder.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 container.removeAll();
                 modifyOrderPanel = new ModifyOrderPanel(applicationController);
                 container.add(modifyOrderPanel);
+                container.revalidate();
             }
         });
-        preparationOrderMenu.add(modifyOrder);
+        preparationOrderMenu.add(modifyPreparationOrder);
 
-
-        deleteOrder = new JMenuItem("Supprimer");
-        preparationOrderMenu.add(deleteOrder);
-        preparationOrderMenu.addSeparator();
-
-        listingOrder = new JMenuItem("Listing");
-        preparationOrderMenu.add(listingOrder);
-        listingOrder.addActionListener(new ActionListener(){
+        listingPreparationOrder = new JMenuItem("Listing");
+        preparationOrderMenu.add(listingPreparationOrder);
+        listingPreparationOrder.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 container.removeAll();
                 allPreparationOrdersPanel = new AllPreparationOrdersPanel(applicationController);
                 container.add(allPreparationOrdersPanel);
+                container.revalidate();
             }
         });
 
         //Recherches
-        firstSearch = new JMenuItem("Premiere recherche");
-        searchMenu.add(firstSearch);
-
         secondSearch = new JMenuItem("Deuxième recherche");
+        secondSearch.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                container.removeAll();
+                searchPanel = new SearchPanel(applicationController);
+                container.add(searchPanel);
+                container.revalidate();
+            }
+        });
         searchMenu.add(secondSearch);
-
-        thirdSearch = new JMenuItem("Troisieme recherche");
-        searchMenu.add(thirdSearch);
 
         //aide
         help = new JMenuItem("Aide");
@@ -110,7 +112,7 @@ public class MainJFrame extends JFrame {
                 container.removeAll();
                 newOrderPanel = new NewOrderPanel(applicationController);
                 container.add(newOrderPanel);
-                container.validate();
+                container.revalidate();
             }
         });
 

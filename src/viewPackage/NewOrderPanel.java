@@ -2,12 +2,14 @@ package viewPackage;
 
 import controllerPackage.ApplicationController;
 import dataAccessPackage.SingletonConnection;
+import exceptionPackage.DataException;
 import modelPackage.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -59,12 +61,13 @@ public class NewOrderPanel extends JPanel {
         spinnerPreparationDate.setBackground(new Color(130, 196, 208));
 
 
-
-        //TODO TRADUCTION DE DATE EN SQL.DATE. deuxieme todo : FAIRE LES PANNEAUX POUR ORDRE DE PREPARATION. Puistu fais une bonne pause PUIS TU CODES LES FONCTIONNALITES DES ORDRES. EZ MON GARS
-
         //JComboBox Lists
-        allIngredients = applicationController.getAllIngredients();
-        allSuppliers = applicationController.getAllSuppliers();
+        try {
+            allIngredients = applicationController.getAllIngredients();
+            allSuppliers = applicationController.getAllSuppliers();
+        } catch (DataException de){
+            System.out.println(de.getMessage());
+        }
 
         //JComboBox
         comboBoxSuppliers = new JComboBox<String>();
@@ -124,7 +127,6 @@ public class NewOrderPanel extends JPanel {
         gbc.gridx++;
         gbc.gridy++;
         this.add(buttonConfirm, gbc);
-
     }
 
 
@@ -145,7 +147,7 @@ public class NewOrderPanel extends JPanel {
                 orderLines.add(newOrderLine);
 
             } catch(NumberFormatException n){
-                System.out.println("Veuillez entrer un nombre dans le champ \"Quantité\"");
+                JOptionPane.showMessageDialog(null, "Veuillez entrer un nombre dans le champ \"Quantité\"", "Mauvais format", 1);
             }
         }
 
@@ -157,15 +159,17 @@ public class NewOrderPanel extends JPanel {
 
             String[] splitFullName = supplierFullName.split("\\s+", -2);
 
-            String supplierId = applicationController.getIdSupplier(splitFullName[0], splitFullName[1]);
+            try {
+                String supplierId = applicationController.getIdSupplier(splitFullName[0], splitFullName[1]);
 
 
-            applicationController.addOrder(supplierId);
-            applicationController.addOrderLines(orderLines, applicationController.getLastId());
+                applicationController.addOrder(supplierId);
+                applicationController.addOrderLines(orderLines, applicationController.getLastId());
 
-            JOptionPane.showMessageDialog(null, "Commande confirmée !");
-
-
+                JOptionPane.showMessageDialog(null, "Commande confirmée !");
+            } catch (DataException de) {
+                System.out.println(de.getMessage());
+            }
         }
     }
 }

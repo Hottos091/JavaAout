@@ -1,13 +1,15 @@
 package dataAccessPackage;
 
+import exceptionPackage.CloseConnectionException;
+
 import java.sql.SQLException;
 
-public class ConnectionDB { //TODO throws exception
-    public void closeConnection() {
+public class ConnectionDB implements ConnectionDBDA { //TODO throws exception
+    public void closeConnection() throws CloseConnectionException {
         try {
             SingletonConnection.getInstance().close();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new CloseConnectionException();
         }
     }
 }

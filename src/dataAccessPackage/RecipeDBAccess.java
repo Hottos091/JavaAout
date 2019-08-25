@@ -1,15 +1,17 @@
 package dataAccessPackage;
 
+import exceptionPackage.DataException;
 import modelPackage.Recipe;
 
+import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class RecipeDBAccess {
-    public ArrayList<String> getAllRecipesLabels(){
+public class RecipeDBAccess implements RecipeDBAccessDA{
+    public ArrayList<String> getAllRecipesLabels() throws DataException{
         ArrayList<String> allRecipes = new ArrayList<>();
 
         Connection connection = SingletonConnection.getInstance();
@@ -28,12 +30,12 @@ public class RecipeDBAccess {
                 allRecipes.add(dataRS.getString("recettelabel"));
             }
         } catch(SQLException e){
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Echec de la saisie des labels des recettes.", "Erreur", 0);
         }
         return allRecipes;
     }
 
-    public Recipe getRecipe(String recipeLabel){
+    public Recipe getRecipe(String recipeLabel) throws DataException{
         Recipe recipe = null;
 
         Connection connection = SingletonConnection.getInstance();
@@ -54,7 +56,7 @@ public class RecipeDBAccess {
                 recipe.setNbPeople(dataRS.getInt("nbPersonnes"));
             }
         } catch (SQLException e){
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Echec de la saisie de la recette.", "Erreur", 0);
         }
         return recipe;
     }

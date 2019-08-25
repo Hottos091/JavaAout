@@ -1,5 +1,6 @@
 package dataAccessPackage;
 
+import exceptionPackage.DataException;
 import modelPackage.OrderLine;
 
 import java.sql.Array;
@@ -8,8 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class OrderLineDBAccess {
-    public void addOrderLines(ArrayList<OrderLine> orderLines, Integer orderId) {
+public class OrderLineDBAccess implements OrderLineDBAccessDA{
+    public void addOrderLines(ArrayList<OrderLine> orderLines, Integer orderId) throws DataException{
         Connection connection = SingletonConnection.getInstance();
         String sql = "INSERT INTO lignecommande VALUES (?, ?, ?)";
 
@@ -23,7 +24,7 @@ public class OrderLineDBAccess {
 
                 statement.executeUpdate();
             } catch (SQLException e){
-                System.out.println(e.getMessage());
+                throw new DataException("Echec de l'ajout d'une ligne de commande.");
             }
         }
     }

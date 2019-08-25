@@ -1,13 +1,16 @@
 package dataAccessPackage;
 
+import exceptionPackage.DataException;
+
+import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class CookDBAccess {
-    public ArrayList<String> getAllCooks(){
+public class CookDBAccess implements CookDBAccessDA{
+    public ArrayList<String> getAllCooks() {
         ArrayList<String> allCooks = new ArrayList<>();
 
         String name;
@@ -30,12 +33,12 @@ public class CookDBAccess {
                 allCooks.add(fullName);
             }
         } catch(SQLException e){
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Echec de l'obtention des cuisiniers", "Erreur", 0);
         }
         return allCooks;
     }
 
-    public String getCookName(Integer cookId){
+    public String getCookName(Integer cookId) {
         Connection connection = SingletonConnection.getInstance();
 
         ResultSet dataRS = null;
@@ -56,7 +59,7 @@ public class CookDBAccess {
                 fullName = firstname + " " + name;
             }
         } catch(SQLException e){
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Problème lors de l'obtention du nom du cuisinier.", "Erreur", 0);
         }
         return fullName;
     }
@@ -80,7 +83,7 @@ public class CookDBAccess {
                 cookId = dataRS.getInt("matricule");
             }
         } catch(SQLException e){
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Problème lors de l'obtention de l'id du cuisinier.", "Erreur", 0);
         }
         return cookId;
     }

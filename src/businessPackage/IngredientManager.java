@@ -1,18 +1,20 @@
 package businessPackage;
 
 import dataAccessPackage.IngredientDBAccess;
+import dataAccessPackage.IngredientDBAccessDA;
+import exceptionPackage.DataException;
 import modelPackage.Ingredient;
 
 import java.util.ArrayList;
 
 public class IngredientManager {
-    private IngredientDBAccess ingredientDBAccess;
+    private IngredientDBAccessDA ingredientDBAccessDA;
 
-    public IngredientManager(){
-        this.ingredientDBAccess = new IngredientDBAccess();
+    public IngredientManager() {
+        this.ingredientDBAccessDA = new IngredientDBAccess();
     }
 
-    public ArrayList<Ingredient> getAllIngredients(){
-        return ingredientDBAccess.getAllIngredients();
+    public ArrayList<Ingredient> getAllIngredients() throws DataException {
+        return ingredientDBAccessDA.getAllIngredients();
     }
 }

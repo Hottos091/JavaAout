@@ -1,11 +1,15 @@
 package controllerPackage;
 
+import exceptionPackage.CloseConnectionException;
+import exceptionPackage.CookException;
+import exceptionPackage.DataException;
 import modelPackage.*;
 
 import businessPackage.*;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 public class ApplicationController {
     private PreparationOrderManager preparationOrderManager;    //Order = ordre
@@ -31,25 +35,26 @@ public class ApplicationController {
     }
 
     //CONNECTION
-    public void closeConnection(){
+    public void closeConnection() throws CloseConnectionException {
         connectionManager.closeConnection();
         System.out.println("Connexion coupée. Au revoir !");
     }
     //ORDERS
-    public void addOrder(String supplierId){
+    public void addOrder(String supplierId) throws DataException{
         orderManager.addOrder(supplierId);
     }
-    public Integer getLastId(){
+
+    public Integer getLastId() throws DataException{
         return orderManager.getLastId();
     }
 
     //ORDERLINE
-    public void addOrderLines(ArrayList<OrderLine> orderLines, Integer orderId){
+    public void addOrderLines(ArrayList<OrderLine> orderLines, Integer orderId) throws DataException {
         orderLineManager.addOrderLines(orderLines, orderId);
     }
 
     //PREPARATION ORDERS
-    public ArrayList<PreparationOrder> getAllPreparationOrders() { //TODO throws exceptionGetAllOrder
+    public ArrayList<PreparationOrder> getAllPreparationOrders() {
         return preparationOrderManager.getAllPreparationOrders();
     }
     public void addPreparationOrder(PreparationOrder preparationOrder){
@@ -61,30 +66,33 @@ public class ApplicationController {
     public void modifyPreparationOrder(PreparationOrder preparationOrder){
         preparationOrderManager.modifyPreparationOrder(preparationOrder);
     }
+    public ArrayList<ResearchResult> getResearchPreparationOrders(GregorianCalendar date1, GregorianCalendar date2) {
+        return preparationOrderManager.getResearchPreparationOrders(date1, date2);
+    }
 
     //INGREDIENT
-    public ArrayList<Ingredient> getAllIngredients(){
+    public ArrayList<Ingredient> getAllIngredients() throws DataException{
         return ingredientManager.getAllIngredients();
     }
 
     //SUPPLIER
-    public ArrayList<String> getAllSuppliers(){
+    public ArrayList<String> getAllSuppliers() throws DataException{
         return supplierManager.getAllSuppliers();
     }
-    public String getIdSupplier(String firstname, String name){
+    public String getIdSupplier(String firstname, String name) throws DataException{
         return supplierManager.getIdSupplier(firstname, name);
     }
 
     //RECIPE
-    public ArrayList<String> getAllRecipesLabels(){
+    public ArrayList<String> getAllRecipesLabels() throws DataException{
         return recipeManager.getAllRecipesLabels();
     }
-    public Recipe getRecipe(String recipeLabel){
+    public Recipe getRecipe(String recipeLabel)throws DataException{
         return recipeManager.getRecipe(recipeLabel);
     }
 
     //RECIPESTEP
-    public ArrayList<RecipeStep> getRecipeSteps(String recipelabel){
+    public ArrayList<RecipeStep> getRecipeSteps(String recipelabel) throws DataException{
         return recipeStepManager.getRecipeSteps(recipelabel);
     }
 
@@ -96,5 +104,5 @@ public class ApplicationController {
         return cookManager.getCookName(cookId);
     }
 
-    public Integer getCookId(String firstname, String lastname) { return cookManager.getCookId(firstname, lastname); }
+    public Integer getCookId(String firstname, String lastname){ return cookManager.getCookId(firstname, lastname); }
 }

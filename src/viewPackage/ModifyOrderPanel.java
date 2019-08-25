@@ -60,7 +60,7 @@ public class ModifyOrderPanel extends JPanel {
                     modifiedOrder.setNumberPortions((Integer) table.getValueAt(rowIndex, 7));
                     modifiedOrder.setChiefCommentary((String) table.getValueAt(rowIndex, 8));
                     modifiedOrder.setCookCommentary((String) table.getValueAt(rowIndex, 9));
-                    modifiedOrder.setUrgent((Boolean) table.getValueAt(rowIndex, 10));
+                    modifiedOrder.setIsUrgent((Boolean) table.getValueAt(rowIndex, 10));
 
                     JFrame frame = new JFrame("Modification ordre");
                     NewPreparationOrderPanel newPreparationOrderPanel = new NewPreparationOrderPanel(applicationController, modifiedOrder);

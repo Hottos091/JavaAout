@@ -1,18 +1,19 @@
 package businessPackage;
 
 import dataAccessPackage.RecipeStepDBAccess;
+import dataAccessPackage.RecipeStepDBAccessDA;
 import modelPackage.RecipeStep;
 
 import java.util.ArrayList;
 
 public class RecipeStepManager {
-    private RecipeStepDBAccess recipeStepDBAccess;
+    private RecipeStepDBAccessDA recipeStepDBAccessDA;
 
     public RecipeStepManager(){
-        this.recipeStepDBAccess = new RecipeStepDBAccess();
+        this.recipeStepDBAccessDA = new RecipeStepDBAccess();
     }
 
     public ArrayList<RecipeStep> getRecipeSteps(String recipelabel){
-        return recipeStepDBAccess.getRecipeSteps(recipelabel);
+        return recipeStepDBAccessDA.getRecipeSteps(recipelabel);
     }
 }

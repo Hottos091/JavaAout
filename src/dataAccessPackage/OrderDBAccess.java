@@ -1,17 +1,19 @@
 package dataAccessPackage;
 
+import exceptionPackage.DataException;
 import modelPackage.Ingredient;
 import modelPackage.Order;
 import modelPackage.OrderLine;
 
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class OrderDBAccess {
+public class OrderDBAccess implements OrderDBAccessDA{
 
-    public void addOrder(String supplierId){
+    public void addOrder(String supplierId) throws DataException {
         Connection connection = SingletonConnection.getInstance();
         long millis = System.currentTimeMillis();
         java.sql.Date sqlDate = new java.sql.Date(millis);
@@ -25,11 +27,11 @@ public class OrderDBAccess {
 
             statement.executeUpdate();
         } catch(SQLException e){
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Echec de l'ajout de la commande dans la base de donnée", "Erreur", 0);
         }
     }
 
-    public Integer getLastId(){
+    public Integer getLastId() throws DataException{
         Connection connection = SingletonConnection.getInstance();
 
         ResultSet dataRS = null;
@@ -49,7 +51,7 @@ public class OrderDBAccess {
                 code = dataRS.getInt("code");
             }
         } catch (SQLException e){
-            System.out.println(e.getMessage());
+            throw new DataException("Echec de l'obtention de l'id de la dernière commande.");
         }
         return code;
     }

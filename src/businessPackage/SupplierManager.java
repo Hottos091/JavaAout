@@ -1,23 +1,23 @@
 package businessPackage;
 
 import dataAccessPackage.SupplierDBAccess;
-import modelPackage.Supplier;
+import dataAccessPackage.SupplierDBAccessDA;
+import exceptionPackage.DataException;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 public class SupplierManager {
-    private SupplierDBAccess supplierDBAccess;
+    private SupplierDBAccessDA supplierDBAccessDA;
 
     public SupplierManager(){
-        supplierDBAccess = new SupplierDBAccess();
+        supplierDBAccessDA = new SupplierDBAccess();
     }
 
-    public ArrayList<String> getAllSuppliers(){
-        return supplierDBAccess.getAllSupplier();
+    public ArrayList<String> getAllSuppliers() throws DataException{
+        return supplierDBAccessDA.getAllSupplier();
     }
-    public String getIdSupplier(String firstname, String name){
-        return supplierDBAccess.getIdSupplier(firstname, name);
+    public String getIdSupplier(String firstname, String name) throws DataException {
+        return supplierDBAccessDA.getIdSupplier(firstname, name);
     }
 
 

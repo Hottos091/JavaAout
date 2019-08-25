@@ -1,15 +1,17 @@
 package businessPackage;
 
 import dataAccessPackage.ConnectionDB;
+import dataAccessPackage.ConnectionDBDA;
+import exceptionPackage.CloseConnectionException;
 
 public class ConnectionManager {
-    private ConnectionDB connectionDB;
+    private ConnectionDBDA connectionDBDA;
 
     public ConnectionManager(){
-        connectionDB = new ConnectionDB();
+        connectionDBDA = new ConnectionDB();
     }
 
-    public void closeConnection(){
-        connectionDB.closeConnection();
+    public void closeConnection() throws CloseConnectionException {
+        connectionDBDA.closeConnection();
     }
 }

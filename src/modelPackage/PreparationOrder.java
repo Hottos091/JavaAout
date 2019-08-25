@@ -107,7 +107,7 @@ public class PreparationOrder {
         this.labelRecipe = labelRecipe;
     }
 
-    public void setUrgent(boolean urgent) {
+    public void setIsUrgent(boolean urgent) {
         isUrgent = urgent;
     }
 

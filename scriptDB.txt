@@ -185,7 +185,316 @@ create index CREATION_FK_IND
 
 
      ######QUERIES
-
+##Ingredient
+insert into Ingredient values
+('Abricot', 0),
+('Agneau', 0),
+('Ail', 0),
+('Airelle', 0),
+('Algue', 0),
+('Amande', 0),
+('Ananas', 0),
+('Anchois', 0),
+('Aneth', 0),
+('Anguille', 0),
+('Armagnac', 0),
+('Artichaut', 0),
+('Asperge', 0),
+('Aubergine', 0),
+('Autruche', 0),
+('Avocat', 0),
+('Bacon', 0),
+('Baguette', 0),
+('Banane', 0),
+('Bar', 0),
+('Basilic', 0),
+('Batavia', 0),
+('Beaufort', 0),
+('Béchamel', 0),
+('Betterave', 0),
+('Beurre', 0),
+('Bière', 0),
+('Biscotte', 0),
+('Biscuit', 0),
+('Blé', 0),
+('Blette', 0),
+('Bleu', 0),
+('Boeuf', 0),
+('Bonbon', 0),
+('Boudin', 0),
+('Bourbon', 0),
+('Boursin', 0),
+('Brandy', 0),
+('Brioche', 0),
+('Brocoli', 0),
+('Cabillaud', 0),
+('Cacahuète', 0),
+('Cacao', 0),
+('Café', 0),
+('Caille', 0),
+('Calamar', 0),
+('Calvados', 0),
+('Camembert', 0),
+('Canard', 0),
+('Cannelle', 0),
+('Cantal', 0),
+('Câpre', 0),
+('Caramel', 0),
+('Carotte', 0),
+('Carpe', 0),
+('Cassis', 0),
+('Céleri', 0),
+('Cèpe', 0),
+('Cerfeuil', 0),
+('Cerise', 0),
+('Champagne', 0),
+('Champignon', 0),
+('Chanterelle', 0),
+('Chapon', 0),
+('Châtaigne', 0),
+('Chèvre', 0),
+('Chocolat', 0),
+('Chorizo', 0),
+('Chou', 0),
+('Chou-Fleur', 0),
+('Ciboulette', 0),
+('Cidre', 0),
+('Citron', 0),
+('Citrouille', 0),
+('Clémentine', 0),
+('Clou De Girofle', 0),
+('Coca-Cola', 0),
+('Coeur De Palmier', 0),
+('Cognac', 0),
+('Coing', 0),
+('Cointreau', 0),
+('Colin', 0),
+('Compote', 0),
+('Comté', 0),
+('Concombre', 0),
+('Confiture', 0),
+('Coquelet', 0),
+('Coquille Saint-Jacques', 0),
+('Coquillettes', 0),
+('Coriandre', 0),
+('Corn Flakes', 0),
+('Cornichon', 0),
+('Courge', 0),
+('Courgette', 0),
+('Couscous', 0),
+('Crabe', 0),
+('Crème Fraîche', 0),
+('Crêpe', 0),
+('Cresson', 0),
+('Crevette', 0),
+('Crosne', 0),
+('Crottin De Chèvre', 0),
+('Cumin', 0),
+('Curcuma', 0),
+('Curry', 0),
+('Datte', 0),
+('Dinde', 0),
+('Dorade', 0),
+('Eau De Vie', 0),
+('Échalote', 0),
+('Emmental', 0),
+('Endive', 0),
+('Épinards', 0),
+('Escalope', 0),
+('Escargot', 0),
+('Estragon', 0),
+('Farine', 0),
+('Fenouil', 0),
+('Feta', 0),
+('Feuille De Brick', 0),
+('Fève', 0),
+('Figue', 0),
+('Foie Gras', 0),
+('Fraise', 0),
+('Framboise', 0),
+('Fromage', 0),
+('Fromage Blanc', 0),
+('Fruit De La Passion', 0),
+('Fruits De Mer', 0),
+('Gamba', 0),
+('Gibier', 0),
+('Gigot', 0),
+('Gin', 0),
+('Gingembre', 0),
+('Girolle', 0),
+('Glace', 0),
+('Goyave', 0),
+('Grand Marnier', 0),
+('Grenadine', 0),
+('Grenouille', 0),
+('Griotte Au Sirop', 0),
+('Groseille', 0),
+('Gruyère', 0),
+('Gruyère râpé', 0),
+('Haddock', 0),
+('Hareng', 0),
+('Haricot', 0),
+('Harissa', 0),
+('Herbes De Provence', 0),
+('Homard', 0),
+("Huile d'olive", 0),
+('Huître', 0),
+('Jambon', 0),
+('Jambonneau', 0),
+('Jus', 0),
+('Kiwi', 0),
+('Lait', 0),
+('Lait De Coco', 0),
+('Laitue', 0),
+('Langouste', 0),
+('Langoustine', 0),
+('Lapin', 0),
+('Lard', 0),
+('Lardon', 0),
+('Lasagne', 0),
+('Laurier', 0),
+('Lentille', 0),
+('Lieu', 0),
+('Lièvre', 0),
+('Limonade', 0),
+('Liqueur', 0),
+('Litchi', 0),
+('Lotte', 0),
+('Loup', 0),
+('Macaron', 0),
+('Macaroni', 0),
+('Mâche', 0),
+('Magret', 0),
+('Maïs', 0),
+('Malibu', 0),
+('Mangue', 0),
+('Maquereau', 0),
+('Marron', 0),
+('Marshmallow', 0),
+('Martini', 0),
+('Melon', 0),
+('Menthe', 0),
+('Merguez', 0),
+('Merlan', 0),
+('Merlu', 0),
+('Miel', 0),
+('Mirabelle', 0),
+('Morue', 0),
+('Moules', 0),
+('Mouton', 0),
+('Mozzarella', 0),
+('Munster', 0),
+('Mûre', 0),
+('Muscade', 0),
+('Myrtille', 0),
+('Navet', 0),
+('Nectar', 0),
+('Noisette', 0),
+('Noix', 0),
+('Noix De Cajou', 0),
+('Noix De Coco', 0),
+('Nougat', 0),
+('Oeuf', 0),
+('Oie', 0),
+('Oignon', 0),
+('Olive', 0),
+('Orange', 0),
+('Origan', 0),
+('Oseille', 0),
+('Pain', 0),
+('Pamplemousse', 0),
+('Papaye', 0),
+('Paprika', 0),
+('Parmesan', 0),
+('Pastis', 0),
+('Pâte', 0),
+('Pâtes', 0),
+('Pêche', 0),
+('Persil', 0),
+('Petit Suisse', 0),
+('Petits Pois', 0),
+('Pigeon', 0),
+('Pignon', 0),
+('Piment', 0),
+('Pineau', 0),
+('Pintade', 0),
+('Poire', 0),
+('Poireau', 0),
+('Pois', 0),
+('Poisson', 0),
+('Poitrine Fumée', 0),
+('Poivre', 0),
+('Poivron', 0),
+('Pomme', 0),
+('Pomme De Terre', 0),
+('Porc', 0),
+('Porto', 0),
+('Potimarron', 0),
+('Poulet', 0),
+('Poulpe', 0),
+('Pousse De Bambou', 0),
+('Prune', 0),
+('Pruneau', 0),
+('Purée', 0),
+('Radis', 0),
+('Raie', 0),
+('Raisin', 0),
+('Rascasse', 0),
+('Ratatouille', 0),
+('Raviolis', 0),
+('Reblochon', 0),
+('Rhubarbe', 0),
+('Rhum', 0),
+('Ricotta', 0),
+('Risotto', 0),
+('Riz', 0),
+('Romarin', 0),
+('Roquefort', 0),
+('Rouget', 0),
+('Rumsteak', 0),
+('Safran', 0),
+('Saint-Moret', 0),
+('Saint-Nectaire', 0),
+('Saké', 0),
+('Salade', 0),
+('Sardine', 0),
+('Saucisse', 0),
+('Saucisson', 0),
+('Saumon', 0),
+('Seiche', 0),
+('Sel', 0),
+('Semoule', 0),
+('Sésame', 0),
+('Soda', 0),
+('Soja', 0),
+('Sole', 0),
+('Sorbet', 0),
+('Spaghetti', 0),
+('Spéculos', 0),
+('Steak', 0),
+('Sucre', 0),
+('Surimi', 0),
+('Tagliatelle', 0),
+('Tapenade', 0),
+('Tequila', 0),
+('Thé', 0),
+('Thon', 0),
+('Thym', 0),
+('Tofu', 0),
+('Tomate', 0),
+('Topinambour', 0),
+('Tournedos', 0),
+('Truffe', 0),
+('Truite', 0),
+('Turbot', 0),
+('Vanille', 0),
+('Veau', 0),
+('Vermouth', 0),
+('Vin', 0),
+('Vodka', 0),
+('Volaille', 0),
+('Whisky', 0),
+('Yaourt', 0);
 ##Recette
 insert into recette values ("Dorade au four", 35, 4);
 insert into recette values ("Pâtes Carbonara", 30, 2);
@@ -239,6 +548,7 @@ insert into localite values (6890, "Kelkpar");
 ##fournisseur
 insert into fournisseur values ("0477265478", "Bush", "Buisson", "bushbuisson@gmail.com", 47, "Rue de la Forêt", 6890, "Kelkpar");
 
+
 ##Composition
 
 insert into Composition values
@@ -259,60 +569,3 @@ insert into Composition values
 ('Oignon', 'Dorade au four', 1),
 ('Sel', 'Dorade au four', 0),
 ('Poivre', 'Dorade au four', 0);
-
-
-
-
-
-     ######QUERIES POUR JAVA
-
-//trouve les étapes pour une recette
-     select numeroetape, descriptionetape
-from recette, etaperecette
-where etaperecette.recette_label = recette.recettelabel
-order by numeroetape;
-
-//Sélectionne les étapes de la recette souhaitée
-select numeroetape, descriptionetape
-from  etaperecette
-where recette_label = "Dorade au four"
-order by numeroetape;
-
-select numeroetape, descriptionetape
-from recette, etaperecette
-where etaperecette.recette_label = "Dorade au four";
-
-//trouve les étapes pour une recette
-     select numeroetape, descriptionetape
-from recette, etaperecette
-where etaperecette.recette_label = recette.recettelabel
-order by numeroetape;
-
-//Sélectionne les étapes de la recette souhaitée
-select descriptionetape
-from recette, etaperecette
-where etaperecette.recette_label = "Dorade au four";
-
-select numeroetape, descriptionetape
-from recette, etaperecette
-where etaperecette.recette_label = "Dorade au four";
-
-//Trouve les lignes de commande pour une commande
-select lc.ingredientlabel, lc.quantite, c.code
-from lignecommande lc, commande c
-where lc.code = c.code;
-
-//Sélectionner la dernière ligne d'une table
-SELECT code
-FROM commande
-ORDER BY code DESC
-LIMIT 1;
-
-//Sélectionne les ingrédients d'une recette donnée entre deux dates
-SELECT o.dateproduction, r.recettelabel, i.ingredientlabel, c.quantitenecessaire
-FROM Composition c, Recette r, OrdrePreparation o, Ingredient i
-WHERE c.recettelabel = r.recettelabel
-AND o.ordrerecettelabel = c.recettelabel
-AND i.ingredientlabel = c.ingredientlabel
-AND o.dateproduction BETWEEN "2019-08-08" AND "2019-08-20"
-ORDER BY o.dateproduction, r.recettelabel;

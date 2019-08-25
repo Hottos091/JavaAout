@@ -23,7 +23,7 @@ public class AllPreparationOrdersPanel extends JPanel {
 
         model = new AllPreparationOrdersModel(allPreparationOrders);
         table = new JTable(model);
-        table.setLayout(new BorderLayout());
+        //table.setLayout(new BorderLayout());
         table.setSelectionMode(listSelectionModel.SINGLE_SELECTION);
 
         listSelectionModel = table.getSelectionModel();
