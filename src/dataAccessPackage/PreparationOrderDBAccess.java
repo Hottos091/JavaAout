@@ -30,7 +30,7 @@ public class PreparationOrderDBAccess implements PreparationOrderDBAccessDA{
         String cookCommentary;
         boolean isUrgent;
 
-        String sql = "SELECT * from ordrepreparation";
+        String sql = "SELECT * from preparationorder";
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -43,49 +43,49 @@ public class PreparationOrderDBAccess implements PreparationOrderDBAccessDA{
                 code = data.getInt("code");
                 preparationOrder.setCode(code);
 
-                orderRecipeLabel = data.getString("ordrerecettelabel");
+                orderRecipeLabel = data.getString("recipe_label");
                 preparationOrder.setLabelRecipe(orderRecipeLabel);
 
-                idCook = data.getInt("matriculecuisinier");
+                idCook = data.getInt("cook_id");
                 preparationOrder.setCookIdNumber(idCook);
 
-                pricePortion = data.getDouble("prixportion");
+                pricePortion = data.getDouble("price_portion");
                 preparationOrder.setPricePortion(pricePortion);
 
-                productionDate = data.getDate("dateproduction");
+                productionDate = data.getDate("production_date");
                 if (!data.wasNull()) {
                     GregorianCalendar calendar = new GregorianCalendar();
                     calendar.setTime(productionDate);
                     preparationOrder.setProductionDate(calendar);
                 }
 
-                expiryDate = data.getDate("dateperemption");
+                expiryDate = data.getDate("expiry_date");
                 if (!data.wasNull()) {
                     GregorianCalendar calendar = new GregorianCalendar();
                     calendar.setTime(expiryDate);
                     preparationOrder.setExpiryDate(calendar);
                 }
 
-                saleDate = data.getDate("datevente");
+                saleDate = data.getDate("sale_date");
                 if (!data.wasNull()) {
                     GregorianCalendar calendar = new GregorianCalendar();
                     calendar.setTime(saleDate);
                     preparationOrder.setSaleDate(calendar);
                 }
 
-                nbPortions = data.getInt("nombreportions");
+                nbPortions = data.getInt("nb_portion");
                 preparationOrder.setNumberPortions(nbPortions);
 
-                chiefCommentary = data.getString("commentairechefcuisinier");
+                chiefCommentary = data.getString("chief_comm");
                 if (!data.wasNull()) {
                     preparationOrder.setChiefCommentary(chiefCommentary);
                 }
 
-                cookCommentary = data.getString("commentairecuisinier");
+                cookCommentary = data.getString("cook_comm");
                 if (!data.wasNull()) {
                     preparationOrder.setCookCommentary(cookCommentary);
                 }
-                isUrgent = data.getBoolean("esturgent");
+                isUrgent = data.getBoolean("is_urgent");
                 preparationOrder.setIsUrgent(isUrgent);
                 allPreparationOrders.add(preparationOrder);
             }
@@ -103,9 +103,10 @@ public class PreparationOrderDBAccess implements PreparationOrderDBAccessDA{
         java.sql.Date expirySqlDate = new java.sql.Date(preparationOrder.getExpiryDate().getTimeInMillis());
         java.sql.Date saleSqlDate = new java.sql.Date(preparationOrder.getSaleDate().getTimeInMillis());
         Boolean isUrgent = preparationOrder.getIsUrgent();
-        String sql = "INSERT INTO ordrepreparation (ordrerecettelabel, matriculecuisinier, prixportion, " +
-                "dateproduction, dateperemption, datevente, nombreportions, commentairechefcuisinier, " +
-                "commentairecuisinier, esturgent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        String sql = "INSERT INTO preparationorder (recipe_label, cook_id, price_portion, " +
+                "production_date, expiry_date, sale_date, nb_portion, chief_comm, " +
+                "cook_comm, is_urgent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -130,11 +131,12 @@ public class PreparationOrderDBAccess implements PreparationOrderDBAccessDA{
     public void deletePreparationOrder(Integer preparationOrderId) {
         Connection connection = SingletonConnection.getInstance();
 
-        String sql = "DELETE FROM ordrepreparation WHERE code='" + preparationOrderId + "';";
+        String sql = "DELETE FROM preparationorder WHERE code=?;";
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
 
+            statement.setInt(1, preparationOrderId);
             statement.executeUpdate();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Echec de la suppression de l'ordre de préparation dans la base de données.", "Erreur", JOptionPane.ERROR_MESSAGE);
@@ -149,17 +151,17 @@ public class PreparationOrderDBAccess implements PreparationOrderDBAccessDA{
         java.sql.Date expirySqlDate = new java.sql.Date(preparationOrder.getExpiryDate().getTimeInMillis());
         java.sql.Date saleSqlDate = new java.sql.Date(preparationOrder.getSaleDate().getTimeInMillis());
 
-        String sql = "UPDATE ordrepreparation " +
-                "SET ordrerecettelabel = ?" +
-                ", matriculecuisinier = ?" +
-                ", prixportion = ?" +
-                ", dateproduction = ?" +
-                ", dateperemption = ?" +
-                ", datevente = ?" +
-                ", nombreportions = ?" +
-                ", commentairechefcuisinier = ?" +
-                ", commentairecuisinier = ?" +
-                ", esturgent = ?" +
+        String sql = "UPDATE preparationorder " +
+                "SET recipe_label = ?" +
+                ", cook_id = ?" +
+                ", price_portion = ?" +
+                ", production_date = ?" +
+                ", expiry_date = ?" +
+                ", sale_date = ?" +
+                ", nb_portion = ?" +
+                ", chief_comm = ?" +
+                ", cook_comm = ?" +
+                ", is_urgent = ?" +
                 " where code = ?;";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -194,13 +196,13 @@ public class PreparationOrderDBAccess implements PreparationOrderDBAccessDA{
 
         java.sql.Date date1sql = new java.sql.Date(date1.getTimeInMillis());
         java.sql.Date date2sql = new java.sql.Date(date2.getTimeInMillis());
-        String sql = "SELECT o.dateproduction, r.recettelabel, i.ingredientlabel, c.quantitenecessaire\n" +
-                "FROM Composition c, Recette r, OrdrePreparation o, Ingredient i\n" +
-                "WHERE c.recettelabel = r.recettelabel\n" +
-                "AND o.ordrerecettelabel = c.recettelabel\n" +
-                "AND i.ingredientlabel = c.ingredientlabel\n" +
-                "AND o.dateproduction BETWEEN \"" + date1sql + "\" AND \"" + date2sql + "\" \n" +
-                "ORDER BY o.dateproduction, r.recettelabel;";
+        String sql = "SELECT o.production_date, r.recipe_label, i.label_ingredient, c.required_quantity\n" +
+                "FROM Composition c, Recipe r, PreparationOrder o, Ingredient i\n" +
+                "WHERE c.recipe_label = r.recipe_label\n" +
+                "AND o.recipe_label = c.recipe_label\n" +
+                "AND i.label_ingredient = c.label_ingredient\n" +
+                "AND o.production_date BETWEEN \"" + date1sql + "\" AND \"" + date2sql + "\" \n" +
+                "ORDER BY o.production_date, r.recipe_label;";
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -210,20 +212,20 @@ public class PreparationOrderDBAccess implements PreparationOrderDBAccessDA{
             while (dataRS.next()) {
                 ResearchResult researchResult = new ResearchResult();
 
-                productionDate = dataRS.getDate("dateproduction");
+                productionDate = dataRS.getDate("production_date");
                 if (!dataRS.wasNull()) {
                     GregorianCalendar calendar = new GregorianCalendar();
                     calendar.setTime(productionDate);
                     researchResult.setProductionDate(calendar);
                 }
 
-                labelRecipe = dataRS.getString("recettelabel");
+                labelRecipe = dataRS.getString("recipe_label");
                 researchResult.setLabelRecipe(labelRecipe);
 
-                quantity = dataRS.getInt("quantitenecessaire");
+                quantity = dataRS.getInt("required_quantity");
                 researchResult.setQuantity(quantity);
 
-                labelIngredient = dataRS.getString("ingredientlabel");
+                labelIngredient = dataRS.getString("label_ingredient");
                 researchResult.setLabelIngredient(labelIngredient);
 
                 researchData.add(researchResult);

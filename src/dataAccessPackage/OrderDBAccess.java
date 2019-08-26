@@ -18,7 +18,7 @@ public class OrderDBAccess implements OrderDBAccessDA{
         long millis = System.currentTimeMillis();
         java.sql.Date sqlDate = new java.sql.Date(millis);
 
-        String sql = "INSERT INTO commande (datetransaction, numtelfournisseur) VALUES (?, ?)";
+        String sql = "INSERT INTO supplyorder (supply_date, phonenumber_supplier) VALUES (?, ?)";
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -37,10 +37,10 @@ public class OrderDBAccess implements OrderDBAccessDA{
         ResultSet dataRS = null;
         Integer code = null;
 
-        String sql = "SELECT code\n" +
-                "FROM commande\n" +
-                "ORDER BY code DESC\n" +
-                "LIMIT 1;\n";
+        String sql = "SELECT code " +
+                "FROM supplyorder " +
+                "ORDER BY code DESC " +
+                "LIMIT 1;";
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -51,7 +51,7 @@ public class OrderDBAccess implements OrderDBAccessDA{
                 code = dataRS.getInt("code");
             }
         } catch (SQLException e){
-            throw new DataException("Echec de l'obtention de l'id de la dernière commande.");
+            throw new DataException("Echec de l'obtention de l'id de la dernière supplyorder.");
         }
         return code;
     }

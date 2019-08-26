@@ -17,19 +17,20 @@ public class RecipeStepDBAccess implements RecipeStepDBAccessDA{
         Connection connection = SingletonConnection.getInstance();
         ResultSet dataRS = null;
 
-        String sql = "select numeroetape, descriptionetape " +
-                "from  etaperecette " +
-                "where recette_label = '" + recipelabel + "' " +
-                "order by numeroetape";
+        String sql = "select step_number, step_description " +
+                "from  recipestep " +
+                "where recipe_label = ?" +
+                "order by step_number";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
 
+            statement.setString(1, recipelabel);
             dataRS = statement.executeQuery();
             while(dataRS.next()){
                 RecipeStep recipeStep = new RecipeStep();
 
-                recipeStep.setStepDescription(dataRS.getString("descriptionetape"));
-                recipeStep.setStepNumber(dataRS.getInt("numeroetape"));
+                recipeStep.setStepDescription(dataRS.getString("step_description"));
+                recipeStep.setStepNumber(dataRS.getInt("step_number"));
 
                 recipeSteps.add(recipeStep);
             }

@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 public class MainJFrame extends JFrame {
     private JMenuBar menuBar;
     private JMenu preparationOrderMenu, searchMenu, helpMenu, orderMenu;
-    private JMenuItem exit, newPreparationOrder, modifyPreparationOrder, listingPreparationOrder, research, newOrder;
+    private JMenuItem exit, newPreparationOrder, modifyPreparationOrder, listingPreparationOrder, research, newOrder, home;
     private Container container;
     private AllPreparationOrdersPanel allPreparationOrdersPanel;
     private NewOrderPanel newOrderPanel;
@@ -21,7 +21,7 @@ public class MainJFrame extends JFrame {
     private ApplicationController applicationController;
 
     private WelcomePanel welcomePanel;
-    private JPanel panelArc;
+    private JPanel arcPanel;
 
     public MainJFrame(){
         //Appel au constructeur de la classe JFrame (prend un titre en argument)
@@ -105,9 +105,23 @@ public class MainJFrame extends JFrame {
         searchMenu.add(research);
 
         //Help Menu
+        home = new JMenuItem("Accueil");
+        home.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                container.removeAll();
+                container.add(welcomePanel, BorderLayout.NORTH);
+                container.add(arcPanel, BorderLayout.CENTER);
+                container.repaint();
+            }
+        });
+        helpMenu.add(home);
+        helpMenu.addSeparator();
+
         exit = new JMenuItem("Quitter");
         exit.addActionListener(new ExitListener());
         helpMenu.add(exit);
+
 
         //Commande
         newOrder = new JMenuItem("Nouvelle commande");
@@ -121,8 +135,8 @@ public class MainJFrame extends JFrame {
                 container.revalidate();
             }
         });
-        panelArc = new ArcPanel();
-        this.add(panelArc, BorderLayout.CENTER);
+        arcPanel = new ArcPanel();
+        this.add(arcPanel, BorderLayout.CENTER);
         this.setVisible(true);
     }
     private class ExitListener implements ActionListener  {

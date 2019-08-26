@@ -2,9 +2,6 @@ package businessPackage;
 
 import dataAccessPackage.CookDBAccess;
 import dataAccessPackage.CookDBAccessDA;
-import exceptionPackage.CookException;
-import exceptionPackage.DataException;
-import modelPackage.Cook;
 
 import java.util.ArrayList;
 
@@ -22,7 +19,7 @@ public class CookManager {
         return cookDBAccessDA.getCookName(cookId);
     }
 
-    public Integer getCookId(String firstname, String lastname){ return cookDBAccessDA.getCookId(firstname, lastname); }
+    public Integer getCookId(String cook){ return cookDBAccessDA.getCookId(cook); }
 }
 
 

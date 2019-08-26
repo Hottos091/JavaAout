@@ -178,10 +178,13 @@ public class NewOrderPanel extends JPanel {
             try {
                 String supplierId = applicationController.getIdSupplier(splitFullName[0], splitFullName[1]);
 
-
-                applicationController.addOrder(supplierId);
-                applicationController.addOrderLines(orderLines, applicationController.getLastId());
-                applicationController.addQuantity(orderLines);
+                if(orderLines.isEmpty()){
+                    JOptionPane.showMessageDialog(null, "Erreur : la liste est vide.", "Erreur", 0);
+                } else {
+                    applicationController.addOrder(supplierId);
+                    applicationController.addOrderLines(orderLines, applicationController.getLastId());
+                    applicationController.addQuantity(orderLines);
+                }
 
             } catch (DataException de) {
                JOptionPane.showMessageDialog(null, de.getMessage(), "Erreur", 0);

@@ -20,14 +20,14 @@ public class RecipeDBAccess implements RecipeDBAccessDA{
         //Données query
         String labelRecipe;
 
-        String sql = "SELECT recettelabel FROM recette;";
+        String sql = "SELECT recipe_label FROM recipe;";
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
 
             dataRS = statement.executeQuery();
             while(dataRS.next()){
-                allRecipes.add(dataRS.getString("recettelabel"));
+                allRecipes.add(dataRS.getString("recipe_label"));
             }
         } catch(SQLException e){
             JOptionPane.showMessageDialog(null, "Echec de la saisie des labels des recettes.", "Erreur", 0);
@@ -41,22 +41,24 @@ public class RecipeDBAccess implements RecipeDBAccessDA{
         Connection connection = SingletonConnection.getInstance();
 
         ResultSet dataRS = null;
-        String sql = "SELECT * FROM recette WHERE recettelabel = '" + recipeLabel +"';";
+        String sql = "SELECT * FROM recipe WHERE recipe_label = ?;";
         try{
             PreparedStatement statement = connection.prepareStatement(sql);
 
+            statement.setString(1, recipeLabel);
             dataRS = statement.executeQuery();
             while(dataRS.next()){
                 recipe = new Recipe();
 
-                recipe.setRecipeLabel(dataRS.getString("recettelabel"));
+                recipe.setRecipeLabel(dataRS.getString("recipe_label"));
 
-                recipe.setPreparationTime(dataRS.getInt("tempspreparation"));
+                recipe.setPreparationTime(dataRS.getInt("preparation_time"));
 
-                recipe.setNbPeople(dataRS.getInt("nbPersonnes"));
+                recipe.setNbPeople(dataRS.getInt("nb_people"));
             }
         } catch (SQLException e){
-            JOptionPane.showMessageDialog(null, "Echec de la saisie de la recette.", "Erreur", 0);
+            JOptionPane.showMessageDialog(null, "Echec de la saisie de la recette", "Erreur", 0);
+            throw new DataException("Echec de la saisie de la recette");
         }
         return recipe;
     }

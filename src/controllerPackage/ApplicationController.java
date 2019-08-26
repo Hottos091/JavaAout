@@ -1,13 +1,11 @@
 package controllerPackage;
 
 import exceptionPackage.CloseConnectionException;
-import exceptionPackage.CookException;
 import exceptionPackage.DataException;
 import modelPackage.*;
 
 import businessPackage.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
@@ -108,5 +106,5 @@ public class ApplicationController {
         return cookManager.getCookName(cookId);
     }
 
-    public Integer getCookId(String firstname, String lastname){ return cookManager.getCookId(firstname, lastname); }
+    public Integer getCookId(String cook){ return cookManager.getCookId(cook); }
 }

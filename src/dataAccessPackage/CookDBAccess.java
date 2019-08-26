@@ -19,21 +19,21 @@ public class CookDBAccess implements CookDBAccessDA{
         Connection connection = SingletonConnection.getInstance();
         ResultSet dataRS = null;
 
-        String sql = "SELECT prenom, nom FROM cuisinier;";
+        String sql = "SELECT firstname, name FROM cook;";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             dataRS = statement.executeQuery();
             while (dataRS.next()) {
                 String fullName;
 
-                name = dataRS.getString("nom");
-                firstname = dataRS.getString("prenom");
+                name = dataRS.getString("name");
+                firstname = dataRS.getString("firstname");
 
                 fullName = firstname + " " + name;
                 allCooks.add(fullName);
             }
         } catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Echec de l'obtention des cuisiniers", "Erreur", 0);
+            JOptionPane.showMessageDialog(null, "Echec de l'obtention des cooks", "Erreur", 0);
         }
         return allCooks;
     }
@@ -44,7 +44,7 @@ public class CookDBAccess implements CookDBAccessDA{
         ResultSet dataRS = null;
         String fullName = null;
 
-        String sql = "SELECT prenom, nom FROM cuisinier WHERE matricule = ?;";
+        String sql = "SELECT firstname, name FROM cook WHERE id = ?;";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, cookId);
@@ -53,37 +53,42 @@ public class CookDBAccess implements CookDBAccessDA{
                 String name;
                 String firstname;
 
-                name = dataRS.getString("nom");
-                firstname = dataRS.getString("prenom");
+                name = dataRS.getString("name");
+                firstname = dataRS.getString("firstname");
 
                 fullName = firstname + " " + name;
             }
         } catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Problème lors de l'obtention du nom du cuisinier.", "Erreur", 0);
+            JOptionPane.showMessageDialog(null, "Problème lors de l'obtention du name du cook.", "Erreur", 0);
         }
         return fullName;
     }
 
-    public Integer getCookId(String firstname, String name) {
+    public Integer getCookId(String cook) {
         Integer cookId = null;
 
         Connection connection = SingletonConnection.getInstance();
         ResultSet dataRS = null;
 
-        String sql = "SELECT matricule " +
-                "FROM cuisinier " +
-                "WHERE cuisinier.nom=" +"'" + name + "'" +
-                " AND cuisinier.prenom=" + "'" + firstname + "';";
+        String[] splitFullName = cook.split("\\s+", -2);
+
+        String sql = "SELECT id " +
+                "FROM cook " +
+                "WHERE cook.name=? " +
+                " AND cook.firstname=?;";
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
 
+            statement.setString(1, splitFullName[1]);
+            statement.setString(2, splitFullName[0]);
+
             dataRS = statement.executeQuery();
             while(dataRS.next()) {
-                cookId = dataRS.getInt("matricule");
+                cookId = dataRS.getInt("id");
             }
         } catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Problème lors de l'obtention de l'id du cuisinier.", "Erreur", 0);
+            JOptionPane.showMessageDialog(null, "Problème lors de l'obtention de l'id du cook.", "Erreur", 0);
         }
         return cookId;
     }

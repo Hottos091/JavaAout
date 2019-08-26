@@ -73,7 +73,7 @@ public class NewPreparationOrderPanel extends JPanel {
         labelSaleDate = new JLabel("Date de vente : ");
         labelCook = new JLabel("Cuisinier : ");
         labelChiefComm = new JLabel("Commentaire chef cuisinier : ");
-        labelCookComm = new JLabel("Commentaire cuisinier ");
+        labelCookComm = new JLabel("Commentaire cuisinier : ");
         //TextField
         Dimension fieldDimension = new Dimension(65, 18);
         fieldNbPortions = new JTextField();
@@ -161,10 +161,10 @@ public class NewPreparationOrderPanel extends JPanel {
         gbc.gridx = 0;
         gbc.gridwidth = 2;
         gbc.gridy++;
-        orderPreparationPanel.add(areaCookComm, gbc);
+        orderPreparationPanel.add(areaChiefComm, gbc);
         gbc.gridx = 3;
         gbc.gridwidth = 2;
-        orderPreparationPanel.add(areaChiefComm, gbc);
+        orderPreparationPanel.add(areaCookComm, gbc);
         gbc.gridwidth = 1;
         gbc.gridy++;
         orderPreparationPanel.add(buttonConfirm, gbc);
@@ -249,12 +249,13 @@ public class NewPreparationOrderPanel extends JPanel {
         this(applicationController);
 
         modification = true;
+        int cookId = preparationOrder.getCookIdNumber();
 
         code = preparationOrder.getCode();
         comboBoxRecipe.setSelectedItem(preparationOrder.getLabelRecipe());
         fieldNbPortions.setText(Integer.toString(preparationOrder.getNumberPortions()));
         fieldPrice.setText(Double.toString(preparationOrder.getPricePortion()));
-        comboBoxCook.setSelectedItem(applicationController.getCookName(preparationOrder.getCookIdNumber()));
+        comboBoxCook.setSelectedItem(applicationController.getCookName(cookId));
         checkIsUrgent.setSelected(preparationOrder.getIsUrgent());
         areaChiefComm.setText(preparationOrder.getChiefCommentary());
         areaCookComm.setText(preparationOrder.getCookCommentary());
@@ -289,13 +290,11 @@ public class NewPreparationOrderPanel extends JPanel {
                 expiryCalendar.setTime(expiryDateSpinner);
                 saleCalendar.setTime(saleDateSpinner);
 
-                String[] splitFullName = cook.split("\\s+", -2);
-
                 PreparationOrder preparationOrder = new PreparationOrder();
                 preparationOrder.setLabelRecipe(recipe);
                 preparationOrder.setNumberPortions(nbPortions);
                 preparationOrder.setPricePortion(pricePortion);
-                preparationOrder.setCookIdNumber(applicationController.getCookId(splitFullName[0], splitFullName[1]));
+                preparationOrder.setCookIdNumber(applicationController.getCookId(cook));
                 preparationOrder.setProductionDate(productionCalendar);
                 preparationOrder.setExpiryDate(expiryCalendar);
                 preparationOrder.setSaleDate(saleCalendar);

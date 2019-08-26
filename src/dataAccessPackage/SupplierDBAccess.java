@@ -18,15 +18,15 @@ public class SupplierDBAccess implements SupplierDBAccessDA{
         Connection connection = SingletonConnection.getInstance();
         ResultSet dataRS = null;
 
-        String sql = "SELECT prenom, nom FROM fournisseur;";
+        String sql = "SELECT firstname, name FROM supplier;";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             dataRS = statement.executeQuery();
             while (dataRS.next()) {
                 String fullName;
 
-                name = dataRS.getString("nom");
-                firstname = dataRS.getString("prenom");
+                name = dataRS.getString("name");
+                firstname = dataRS.getString("firstname");
 
                 fullName = firstname + " " + name;
                 suppliersNames.add(fullName);
@@ -42,17 +42,19 @@ public class SupplierDBAccess implements SupplierDBAccessDA{
 
         Connection connection = SingletonConnection.getInstance();
         ResultSet dataRS = null;
-        String sql = "SELECT numtel " +
-                "FROM fournisseur " +
-                "WHERE fournisseur.nom=" +"'" + name + "'" +
-                " AND fournisseur.prenom=" + "'" + firstname + "';";
+        String sql = "SELECT phonenumber " +
+                "FROM supplier " +
+                "WHERE supplier.name = ? " +
+                "AND supplier.firstname = ?;";
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
 
+            statement.setString(1, name);
+            statement.setString(2, firstname);
             dataRS = statement.executeQuery();
             while(dataRS.next()) {
-                phoneNumber = dataRS.getString("numtel");
+                phoneNumber = dataRS.getString("phonenumber");
             }
         } catch(SQLException e){
             throw new DataException("Echec de l'obtention de l'id du fournisseur.");

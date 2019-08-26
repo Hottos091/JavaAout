@@ -9,6 +9,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
 public class ModifyOrderPanel extends JPanel {
@@ -41,38 +43,43 @@ public class ModifyOrderPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int rowIndex = table.getSelectedRow();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
                 if(rowIndex != -1){
-                    PreparationOrder modifiedOrder = new PreparationOrder();
-                    GregorianCalendar calendarProduction = new GregorianCalendar();
-                    GregorianCalendar calendarExpiry = new GregorianCalendar();
-                    GregorianCalendar calendarSale = new GregorianCalendar();
+                    try {
+                        PreparationOrder modifiedOrder = new PreparationOrder();
+                        GregorianCalendar calendarProduction = new GregorianCalendar();
+                        GregorianCalendar calendarExpiry = new GregorianCalendar();
+                        GregorianCalendar calendarSale = new GregorianCalendar();
 
-                    modifiedOrder.setCode((Integer) table.getValueAt(rowIndex, 0));
-                    modifiedOrder.setLabelRecipe((String) table.getValueAt(rowIndex, 1));
-                    modifiedOrder.setCookIdNumber((Integer) table.getValueAt(rowIndex, 2));
-                    modifiedOrder.setPricePortion((Double) table.getValueAt(rowIndex, 3));
-                    calendarProduction.setTime((java.util.Date) table.getValueAt(rowIndex, 4));
-                    modifiedOrder.setProductionDate(calendarProduction);
-                    calendarExpiry.setTime((java.util.Date) table.getValueAt(rowIndex, 5));
-                    modifiedOrder.setExpiryDate(calendarExpiry);
-                    calendarSale.setTime((java.util.Date) table.getValueAt(rowIndex, 6));
-                    modifiedOrder.setSaleDate(calendarSale);
-                    modifiedOrder.setNumberPortions((Integer) table.getValueAt(rowIndex, 7));
-                    modifiedOrder.setChiefCommentary((String) table.getValueAt(rowIndex, 8));
-                    modifiedOrder.setCookCommentary((String) table.getValueAt(rowIndex, 9));
-                    modifiedOrder.setIsUrgent((Boolean) table.getValueAt(rowIndex, 10));
+                        modifiedOrder.setCode((Integer) table.getValueAt(rowIndex, 0));
+                        modifiedOrder.setLabelRecipe((String) table.getValueAt(rowIndex, 1));
+                        modifiedOrder.setCookIdNumber(applicationController.getCookId(((String) table.getValueAt(rowIndex, 2))));
+                        modifiedOrder.setPricePortion((Double) table.getValueAt(rowIndex, 3));
+                        calendarProduction.setTime(dateFormat.parse((String) table.getValueAt(rowIndex, 4)));
+                        modifiedOrder.setProductionDate(calendarProduction);
+                        calendarExpiry.setTime(dateFormat.parse((String) table.getValueAt(rowIndex, 5)));
+                        modifiedOrder.setExpiryDate(calendarExpiry);
+                        calendarSale.setTime(dateFormat.parse((String) table.getValueAt(rowIndex, 6)));
+                        modifiedOrder.setSaleDate(calendarSale);
+                        modifiedOrder.setNumberPortions((Integer) table.getValueAt(rowIndex, 7));
+                        modifiedOrder.setChiefCommentary((String) table.getValueAt(rowIndex, 8));
+                        modifiedOrder.setCookCommentary((String) table.getValueAt(rowIndex, 9));
+                        modifiedOrder.setIsUrgent((Boolean) table.getValueAt(rowIndex, 10));
 
-                    JFrame frame = new JFrame("Modification ordre");
-                    NewPreparationOrderPanel newPreparationOrderPanel = new NewPreparationOrderPanel(applicationController, modifiedOrder);
-                    frame.setBounds(100,100, 800, 600);
-                    Container container;
-                    container = frame.getContentPane();
-                    container.removeAll();
-                    container.add(newPreparationOrderPanel);
-                    container.validate();
-                    frame.setVisible(true);
+                        JFrame frame = new JFrame("Modification ordre");
+                        NewPreparationOrderPanel newPreparationOrderPanel = new NewPreparationOrderPanel(applicationController, modifiedOrder);
+                        frame.setBounds(100, 100, 800, 600);
+                        Container container;
+                        container = frame.getContentPane();
+                        container.removeAll();
+                        container.add(newPreparationOrderPanel);
+                        container.validate();
+                        frame.setVisible(true);
 
-                    ((AllPreparationOrdersModel) table.getModel()).fireTableDataChanged();
+                        ((AllPreparationOrdersModel) table.getModel()).fireTableDataChanged();
+                    } catch (ParseException pe){
+                        System.out.println("Erreur lors de la conversion de la date avec le DateFormat.");
+                    }
                 }
             }
         });

@@ -9,5 +9,5 @@ public interface CookDBAccessDA {
 
     public String getCookName(Integer cookId);
 
-    public Integer getCookId(String firstname, String name);
+    public Integer getCookId(String cook);
 }

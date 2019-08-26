@@ -10,180 +10,180 @@ use test4;
 -- Tables Section
 -- _____________
 
-create table Commande (
+create table SupplyOrder (
      code int not null auto_increment,
-     datetransaction timestamp not null,
-     numtelfournisseur varchar(64) not null,
-     constraint COMMANDE_PK primary key (code));
+     supply_date timestamp not null,
+     phonenumber_supplier varchar(64) not null,
+     constraint SUPPLYORDER_PK primary key (code));
 
-create table LigneCommande (
+create table OrderLine (
      code int not null,
-     ingredientlabel varchar(64) not null,
-     quantite int not null,
-     constraint LIGNECOMMANDE_PK primary key(code, ingredientlabel));
+     label_ingredient varchar(64) not null,
+     quantity int not null,
+     constraint ORDERLINE_PK primary key(code, label_ingredient));
 
 create table Ingredient (
-     ingredientlabel varchar(64) not null,
-     quantiteenstock int,
-     constraint INGREDIENT_PK primary key (ingredientlabel));
+     label_ingredient varchar(64) not null,
+     in_stock_quantity int,
+     constraint INGREDIENT_PK primary key (label_ingredient));
 
 create table Composition (
-     ingredientlabel varchar(64) not null,
-     recettelabel varchar(64) not null,
-     quantitenecessaire int not null,
-     constraint COMPOSITION_PK primary key (ingredientlabel, recettelabel));
+     label_ingredient varchar(64) not null,
+     recipe_label varchar(64) not null,
+     required_quantity int not null,
+     constraint COMPOSITION_PK primary key (label_ingredient, recipe_label));
 
-create table Fournisseur (
-     numtel varchar(64) not null,
-      nom varchar(64) not null,
-     prenom varchar(64) not null,
+create table Supplier (
+     phonenumber varchar(64) not null,
+     name varchar(64) not null,
+     firstname varchar(64) not null,
      email varchar(255) not null,
-     numerorue integer not null,
-     nomRue varchar(64) not null,
-     codepostal int not null,
-     localitelabel varchar(64) not null,
-     constraint FOURNISSEUR_PK primary key (numtel));
+     house_number integer not null,
+     street_name varchar(64) not null,
+     zipcode int not null,
+     label_city varchar(64) not null,
+     constraint Supplier_PK primary key (phonenumber));
 
-create table Localite (
-     codepostal integer not null,
-     localitelabel varchar(120) not null,
-     constraint LOCALITE_PK primary key (codepostal, localitelabel));
+create table City (
+     zipcode integer not null,
+     label_city varchar(120) not null,
+     constraint City_PK primary key (zipcode, label_city));
 
-create table Recette (
-     recettelabel varchar(64) not null,
-     tempspreparation integer not null,
-     nbpersonnes integer not null,
-     constraint RECETTE_PK primary key (recettelabel));
+create table Recipe (
+     recipe_label varchar(64) not null,
+     preparation_time integer not null,
+     nb_people integer not null,
+     constraint Recipe_PK primary key (recipe_label));
 
-create table EtapeRecette (
-     etape_id int auto_increment,
-     numeroetape integer not null,
-     descriptionetape varchar (255) not null,
-     recette_label varchar(64),
-     constraint ETAPERECETTE_PK primary key(etape_id));
+create table RecipeStep (
+     step_id int auto_increment,
+     step_number integer not null,
+     step_description varchar (255) not null,
+     recipe_label varchar(64),
+     constraint RecipeStep_PK primary key(step_id));
 
-create table OrdrePreparation (
+create table PreparationOrder (
      code integer not null auto_increment,
-     ordrerecettelabel varchar(64) not null,
-     matriculecuisinier int not null,
-     prixportion double not null,
-     dateproduction timestamp not null,
-     dateperemption timestamp not null,
-     datevente timestamp not null,
-     nombreportions integer not null,
-     commentairechefcuisinier varchar(255),
-     commentairecuisinier varchar(255),
-     esturgent boolean not null,
-     constraint ORDREPREPARATION_PK primary key (code));
+     recipe_label varchar(64) not null,
+     cook_id int not null,
+     price_portion double not null,
+     production_date timestamp not null,
+     expiry_date timestamp not null,
+     sale_date timestamp not null,
+     nb_portion integer not null,
+     chief_comm varchar(255),
+     cook_comm varchar(255),
+     is_urgent boolean not null,
+     constraint PreparationOrder_PK primary key (code));
 
-create table Cuisinier (
-     matricule int not null,
-     nom varchar(64) not null,
-     prenom varchar(64) not null,
-     chef_id int,
-     constraint CUISINIER_PK primary key (matricule));
+create table Cook (
+     id int not null,
+     name varchar(64) not null,
+     firstname varchar(64) not null,
+     chief_id int,
+     constraint Cook_PK primary key (id));
 
 
 -- Constraints Section
 -- ___________________
 
 -- Not implemented
--- alter table Commande add constraint COMMANDE_PK_CHK
+-- alter table SupplyOrder add constraint SUPPLYORDER_PK_CHK
 --     check(exists(select * from Achat
 --                  where Achat.Code = Code));
 
-alter table Commande add constraint COMMANDE_FOURNISSEUR_FK
-     foreign key (numtelfournisseur)
-     references Fournisseur (numtel);
+alter table SupplyOrder add constraint SUPPLYORDER_SUPPLIER_FK
+     foreign key (phonenumber_supplier)
+     references Supplier (phonenumber);
 
-alter table OrdrePreparation add constraint ORDREPREPARATION_RECETTE_FK
-     foreign key (ordrerecettelabel)
-     references Recette (recettelabel);
+alter table PreparationOrder add constraint PREPARATIONORDER_RECIPE_FK
+     foreign key (recipe_label)
+     references Recipe (recipe_label);
 
-alter table OrdrePreparation add constraint ORDREPREPARATION_CUISINIER_FK
-     foreign key (matriculecuisinier)
-     references Cuisinier (matricule);
+alter table PreparationOrder add constraint PREPARATIONORDER_COOK_FK
+     foreign key (cook_id)
+     references Cook (id);
 
-alter table Fournisseur add constraint FOURNISSEUR_LOCALITE_FK
-     foreign key (codepostal, localitelabel)
-     references Localite (codepostal, localitelabel);
+alter table Supplier add constraint SUPPLIER_CITY_FK
+     foreign key (zipcode, label_city)
+     references City (zipcode, label_city);
 
 
 -- Not implemented
--- alter table Recette add constraint RECETTE_PK_CHK
+-- alter table Recipe add constraint Recipe_PK_CHK
 --     check(exists(select * from Composition
---                  where Composition.RecetteLabel = RecetteLabel));
+--                  where Composition.recipe_label = recipe_label));
 
-alter table LigneCommande add constraint LIGNECOMMANDE_INGREDIENT_FK
-     foreign key (ingredientlabel)
-     references Ingredient (ingredientlabel);
+alter table OrderLine add constraint ORDERLINE_INGREDIENT_FK
+     foreign key (label_ingredient)
+     references Ingredient (label_ingredient);
 
-alter table LigneCommande add constraint LIGNECOMMANDE_COMMANDE_FK
+alter table OrderLine add constraint ORDERLINE_SUPPLYORDER_FK
      foreign key (code)
-     references Commande (code);
+     references SupplyOrder (code);
 
-alter table Composition add constraint COMPOSITION_RECETTE_FK
-     foreign key (recettelabel)
-     references Recette (recettelabel);
+alter table Composition add constraint COMPOSITION_RECIPE_FK
+     foreign key (recipe_label)
+     references Recipe (recipe_label);
 
 alter table Composition add constraint COMPOSITION_INGREDIENT_FK
-     foreign key (ingredientlabel)
-     references Ingredient (ingredientlabel);
+     foreign key (label_ingredient)
+     references Ingredient (label_ingredient);
 
-alter table EtapeRecette add constraint ETAPERECETTE_RECETTE_FK
-     foreign key (recette_label)
-    references Recette (recettelabel);
+alter table RecipeStep add constraint RECIPESTEP_RECIPE_FK
+     foreign key (recipe_label)
+    references Recipe (recipe_label);
 
 -- Index Section
 -- _____________
 
-create unique index COMMANDE_PK_IND
-     on Commande (code);
+create unique index SUPPLYORDER_PK_IND
+     on SupplyOrder (code);
 
-create index COMMANDE_FOURNISSEUR_FK_IND
-     on Commande (numtelfournisseur);
+create index SUPPLYORDER_SUPPLIER_FK_IND
+     on SupplyOrder (phonenumber_supplier);
 
 create unique index INGREDIENT_PK_IND
-     on Ingredient (ingredientlabel);
+     on Ingredient (label_ingredient);
 
-create unique index ORDREPREPARATION_PK_IND
-     on OrdrePreparation (code);
+create unique index PREPARATIONORDER_PK_IND
+     on PreparationOrder (code);
 
-create unique index ORDREPREPARATION_FK_IND
-    on OrdrePreparation(matriculecuisinier, dateproduction);
+create unique index PREPARATIONORDER_FK_IND
+    on PreparationOrder(cook_id, production_date);
 
-create unique index FOURNISSEUR_PK_IND
-     on Fournisseur (numtel);
+create unique index SUPPLIER_PK_IND
+     on Supplier (phonenumber);
 
-create index FOURNISSEUR_LOCALITE_FK_IND
-     on Fournisseur (codepostal, localitelabel);
+create index SUPPLIER_CITY_FK_IND
+     on Supplier (zipcode, label_city);
 
-create unique index LOCALITE_PK_IND
-     on Localite (codepostal, localitelabel);
+create unique index CITY_PK_IND
+     on City (zipcode, label_city);
 
-create unique index RECETTE_PK_IND
-     on Recette (recettelabel);
+create unique index RECIPE_PK_IND
+     on Recipe (recipe_label);
 
-create unique index LIGNECOMMANDE_PK_IND
-     on LigneCommande (ingredientlabel, code);
+create unique index ORDERLINE_PK_IND
+     on OrderLine (label_ingredient, code);
 
-create index LIGNECOMMANDE_COMMANDE_FK_IND
-     on LigneCommande (code);
+create index ORDERLINE_SUPPLYORDER_FK_IND
+     on OrderLine (code);
 
 create unique index COMPOSITION_PK_IND
-     on Composition (recettelabel, ingredientlabel);
+     on Composition (recipe_label, label_ingredient);
 
 create index COMPOSITION_INGREDIENT_FK_IND
-     on Composition (ingredientlabel);
+     on Composition (label_ingredient);
 
-create unique index CUISINIER_PK_IND
-     on Cuisinier (matricule);
+create unique index COOK_PK_IND
+     on Cook (id);
 
 create index PREPARATION_FK_IND
-     on OrdrePreparation (matriculecuisinier);
+     on PreparationOrder (cook_id);
 
 create index CREATION_FK_IND
-     on OrdrePreparation (ordrerecettelabel);
+     on PreparationOrder (recipe_label);
 
 
 
@@ -498,54 +498,60 @@ insert into Ingredient values
 ('Volaille', 0),
 ('Whisky', 0),
 ('Yaourt', 0);
-##Recette
-insert into recette values ("Dorade au four", 35, 4);
-insert into recette values ("Pâtes Carbonara", 30, 2);
+
+##Recipe
+insert into Recipe values ("Dorade au four", 35, 4);
+insert into Recipe values ("Pâtes Carbonara", 30, 2);
 
 
-##Cuisinier
-insert into cuisinier values(001, "Seb", "Pat", null); #chef
+##Cook
+insert into Cook values(001, "Seb", "Pat", null); #chef
 
-insert into cuisinier values (002, "Asap", "Rocky", 001);
+insert into Cook values (002, "Asap", "Rocky", 001);
 
-insert into cuisinier values(003, "Spahyd", "Erman", 001);
-
-
-##etaperecette
-
-insert into etaperecette values(1, 1, "Préchauffez le four à 180°C", "Dorade au four");
-
-insert into etaperecette values(2, 2, "Rincez le poisson", "Dorade au four");
-
-insert into etaperecette values(3, 3, "Epluchez l\'oignon et émincez le finement. Déposez le dans le fond d'un plat à four", "Dorade au four");
-
-insert into etaperecette values(4, 4, "Déposez les dorades par dessus", "Dorade au four");
-
-insert into etaperecette values(5, 5, "Disposez dans les dorades l\'ail haché, les herbes de provence ou le thym et les feuilles de laurier, puis garnissez les également de tranches de citron", "Dorade au four");
-
-insert into etaperecette values(6, 6, "Salez et poivrez", "Dorade au four");
-
-insert into etaperecette values(7, 7, "Arrosez d'un filet d'huile d'olive", "Dorade au four");
-
-insert into etaperecette values(8, 8, "Déposez un fond d'eau dans le plat à four", "Dorade au four");
-
-insert into etaperecette values(9, 9, "Enfournez 30 minutes", "Dorade au four");
+insert into Cook values(003, "Spahyd", "Erman", 001);
 
 
-insert into etaperecette values(10, 1, "Cuire les pâtes dans un grand volume d'eau bouillante salée.", "Pâtes Carbonara");
+##RecipeStep
 
-insert into etaperecette values(11, 2, "Pendant ce temps, faire dorer les lardons dans une poêle à sec.", "Pâtes Carbonara");
+insert into RecipeStep values(1, 1, "Préchauffez le four à 180°C", "Dorade au four");
 
-insert into etaperecette values(12, 3, "Lorsqu'ils sont dorés, ajouter la crème et laisser mijoter durant 10 minutes.", "Pâtes Carbonara");
+insert into RecipeStep values(2, 2, "Rincez le poisson", "Dorade au four");
 
-insert into etaperecette values(13, 4, "Egoutter les pâtes, les verser dans la sauce, ajouter l'oeuf battu, mélanger et servir saupoudrer de fromage.", "Pâtes Carbonara");
+insert into RecipeStep values(3, 3, "Epluchez l\'oignon et émincez le finement. Déposez le dans le fond d'un plat à four", "Dorade au four");
 
-##localite
-insert into localite values (6890, "Kelkpar");
+insert into RecipeStep values(4, 4, "Déposez les dorades par dessus", "Dorade au four");
+
+insert into RecipeStep values(5, 5, "Disposez dans les dorades l\'ail haché, les herbes de provence ou le thym et les feuilles de laurier, puis garnissez les également de tranches de citron", "Dorade au four");
+
+insert into RecipeStep values(6, 6, "Salez et poivrez", "Dorade au four");
+
+insert into RecipeStep values(7, 7, "Arrosez d'un filet d'huile d'olive", "Dorade au four");
+
+insert into RecipeStep values(8, 8, "Déposez un fond d'eau dans le plat à four", "Dorade au four");
+
+insert into RecipeStep values(9, 9, "Enfournez 30 minutes", "Dorade au four");
 
 
-##fournisseur
-insert into fournisseur values ("0477265478", "Bush", "Buisson", "bushbuisson@gmail.com", 47, "Rue de la Forêt", 6890, "Kelkpar");
+insert into RecipeStep values(10, 1, "Cuire les pâtes dans un grand volume d'eau bouillante salée.", "Pâtes Carbonara");
+
+insert into RecipeStep values(11, 2, "Pendant ce temps, faire dorer les lardons dans une poêle à sec.", "Pâtes Carbonara");
+
+insert into RecipeStep values(12, 3, "Lorsqu'ils sont dorés, ajouter la crème et laisser mijoter durant 10 minutes.", "Pâtes Carbonara");
+
+insert into RecipeStep values(13, 4, "Egoutter les pâtes, les verser dans la sauce, ajouter l'oeuf battu, mélanger et servir saupoudrer de fromage.", "Pâtes Carbonara");
+
+##City
+insert into City values (6890, "Kelkpar");
+
+
+##Supplier
+insert into Supplier values ("0477265478", "Bush", "Buisson", "bushbuisson@gmail.com", 47, "Rue de la Forêt", 6890, "Kelkpar");
+
+insert into Supplier values ("0495457840", "Apu", "Shoppy", "apushoppy@gmail.com", 23, "Rue des commercants", 6890, "Kelkpar");
+
+
+
 
 
 ##Composition

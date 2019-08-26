@@ -13,6 +13,7 @@ public class AllPreparationOrdersPanel extends JPanel {
     private JTable table;
     private AllPreparationOrdersModel model;
     private ListSelectionModel listSelectionModel;
+    private JScrollPane scrollPane;
 
     public AllPreparationOrdersPanel(ApplicationController applicationController) {
         this.applicationController = applicationController;
@@ -23,14 +24,15 @@ public class AllPreparationOrdersPanel extends JPanel {
 
         model = new AllPreparationOrdersModel(allPreparationOrders, applicationController);
         table = new JTable(model);
+        scrollPane = new JScrollPane(table);
         //table.setLayout(new BorderLayout());
         table.setSelectionMode(listSelectionModel.SINGLE_SELECTION);
 
         listSelectionModel = table.getSelectionModel();
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
-        table.setVisible(true);
-        this.add(table);
+        scrollPane.setVisible(true);
+        this.add(scrollPane);
         this.setVisible(true);
     }
 

@@ -27,10 +27,10 @@ public class IngredientDBAccess implements IngredientDBAccessDA{
 
             while(dataRS.next()){
                 ingredient = new Ingredient();
-                labelIngredient = dataRS.getString("ingredientlabel");
+                labelIngredient = dataRS.getString("label_ingredient");
                 ingredient.setLabel(labelIngredient);
 
-                stockQuantityIngredient = dataRS.getInt("quantiteenstock");
+                stockQuantityIngredient = dataRS.getInt("in_stock_quantity");
                 ingredient.setQuantityInStock(stockQuantityIngredient);
 
                 allIngredients.add(ingredient);
@@ -45,8 +45,8 @@ public class IngredientDBAccess implements IngredientDBAccessDA{
         Connection connection = SingletonConnection.getInstance();
 
         String sql = "UPDATE Ingredient " +
-                "SET quantiteenstock = quantiteenstock + ? " +
-                "WHERE ingredientlabel = ?";
+                "SET in_stock_quantity = in_stock_quantity + ? " +
+                "WHERE label_ingredient = ?";
 
         for(OrderLine orderLine : orderLines){
             try {

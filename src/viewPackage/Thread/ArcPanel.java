@@ -22,4 +22,8 @@ public class ArcPanel extends JPanel {
         return this.arc;
    }
 
+   public void start(){
+        thread.start();
+   }
+
 }

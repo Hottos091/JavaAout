@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class OrderLineDBAccess implements OrderLineDBAccessDA{
     public void addOrderLines(ArrayList<OrderLine> orderLines, Integer orderId) throws DataException{
         Connection connection = SingletonConnection.getInstance();
-        String sql = "INSERT INTO lignecommande VALUES (?, ?, ?)";
+        String sql = "INSERT INTO orderline VALUES (?, ?, ?)";
 
         for(OrderLine orderLine : orderLines){
             try {
