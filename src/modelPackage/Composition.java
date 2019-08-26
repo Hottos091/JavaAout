@@ -5,11 +5,14 @@ import java.util.ArrayList;
 public class Composition {
     private String ingredientLabel;
     private String recipeLabel;
-    private Integer quantityRequired;
+    private Integer requiredQuantity;
 
 
+    public String toString(){
+        return ingredientLabel + " : " + requiredQuantity+"\n";
+    }
     //SETTORS
-    public void setingredientLabel(String ingredientLabel) {
+    public void setIngredientLabel(String ingredientLabel) {
         this.ingredientLabel = ingredientLabel;
     }
 
@@ -17,12 +20,12 @@ public class Composition {
         this.recipeLabel = recipeLabel;
     }
 
-    public void setQuantityRequired(Integer quantityRequired) {
-        this.quantityRequired = quantityRequired;
+    public void setRequiredQuantity(Integer requiredQuantity) {
+        this.requiredQuantity = requiredQuantity;
     }
 
     //GETTORS
-    public String getingredientLabel() {
+    public String getIngredientLabel() {
         return ingredientLabel;
     }
 
@@ -30,7 +33,7 @@ public class Composition {
         return recipeLabel;
     }
 
-    public Integer getQuantityRequired() {
-        return quantityRequired;
+    public Integer getRequiredQuantity() {
+        return requiredQuantity;
     }
 }

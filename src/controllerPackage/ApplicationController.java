@@ -19,6 +19,7 @@ public class ApplicationController {
     private RecipeManager recipeManager;
     private CookManager cookManager;
     private RecipeStepManager recipeStepManager;
+    private CompositionManager compositionManager;
 
     public ApplicationController(){
         this.preparationOrderManager = new PreparationOrderManager();
@@ -30,6 +31,7 @@ public class ApplicationController {
         this.recipeManager = new RecipeManager();
         this.cookManager = new CookManager();
         this.recipeStepManager = new RecipeStepManager();
+        this.compositionManager = new CompositionManager();
     }
 
     //CONNECTION
@@ -107,4 +109,7 @@ public class ApplicationController {
     }
 
     public Integer getCookId(String cook){ return cookManager.getCookId(cook); }
+
+    //COMPOSITION
+    public ArrayList<Composition> getComposition(String labelRecipe) throws DataException{ return compositionManager.getComposition(labelRecipe);}
 }

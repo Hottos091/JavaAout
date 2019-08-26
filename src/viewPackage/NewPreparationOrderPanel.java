@@ -2,10 +2,7 @@ package viewPackage;
 
 import controllerPackage.ApplicationController;
 import exceptionPackage.DataException;
-import modelPackage.Cook;
-import modelPackage.PreparationOrder;
-import modelPackage.Recipe;
-import modelPackage.RecipeStep;
+import modelPackage.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,8 +24,9 @@ public class NewPreparationOrderPanel extends JPanel {
     //Recipe
     private JLabel labelRecipe, labelPrepTime, labelRecipeSteps, labelNbPeople, labelValueNbPeople, labelValuePrepTime;
     private JComboBox comboBoxRecipe;
-    private JTextArea areaRecipeSteps;
+    private JTextArea areaRecipeSteps, areaIngredients;
     private ArrayList<String> allRecipesLabel;
+    private ArrayList<Composition> recipeComposition;
 
     //PreparationOrder
     private JLabel labelNbPortions, labelPrice, labelCook, labelProdDate, labelExpiryDate, labelSaleDate, labelChiefComm, labelCookComm;
@@ -43,17 +41,8 @@ public class NewPreparationOrderPanel extends JPanel {
     private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
     private ArrayList<String> allCooks;
 
-    private PreparationOrder preparationOrder;
-    private String recipe;
-    private Integer nbPortions;
-    private double pricePortion;
-    private Cook cook;
-    private GregorianCalendar productionDate, expiryDate, saleDate;
-    private boolean isUrgent;
-    private String cookComm, chiefComm;
+
     private JButton buttonConfirm;
-
-
     //SplitPane
     private JPanel recipePanel;
     private JPanel orderPreparationPanel;
@@ -183,6 +172,14 @@ public class NewPreparationOrderPanel extends JPanel {
         areaRecipeSteps = new JTextArea();
         areaRecipeSteps.setLineWrap(true);
         areaRecipeSteps.setWrapStyleWord(true);
+        areaRecipeSteps.setEditable(false);
+
+        areaIngredients = new JTextArea();
+        areaIngredients.setEditable(false);
+        areaIngredients.setWrapStyleWord(true);
+        areaIngredients.setLineWrap(true);
+
+
         //Label
         labelRecipe = new JLabel("Recette : ");
         labelPrepTime = new JLabel("Temps de préparation (minutes) : ");
@@ -232,13 +229,14 @@ public class NewPreparationOrderPanel extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
         gbc.gridy++;
-        gbc.gridwidth = 3;
+        //gbc.gridwidth = 2;
         gbc.weightx = 0.5;
         recipePanel.add(areaRecipeSteps, gbc);
-
+        gbc.gridx++;
+        recipePanel.add(areaIngredients, gbc);
         splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, recipePanel, orderPreparationPanel);
         splitPane.setOneTouchExpandable(true);
-        splitPane.setDividerLocation(250);
+        splitPane.setDividerLocation(320);
 
         this.setLayout(new BorderLayout());
         this.add(splitPane, BorderLayout.CENTER);
@@ -280,8 +278,6 @@ public class NewPreparationOrderPanel extends JPanel {
                 GregorianCalendar productionCalendar = new GregorianCalendar();
                 GregorianCalendar expiryCalendar = new GregorianCalendar();
                 GregorianCalendar saleCalendar = new GregorianCalendar();
-                spinnerProdDate.revalidate();
-                spinnerSaleDate.revalidate();
                 java.util.Date prodDateSpinner = (java.util.Date) spinnerProdDate.getValue();
                 java.util.Date saleDateSpinner = (java.util.Date) spinnerSaleDate.getValue();
                 java.util.Date expiryDateSpinner = (java.util.Date) spinnerExpiryDate.getValue();
@@ -323,9 +319,11 @@ public class NewPreparationOrderPanel extends JPanel {
                 Object item = event.getItem();
 
                 ArrayList<RecipeStep> recipeSteps;
+                ArrayList<Composition> recipeComposition;
                 Recipe recipe;
 
                 areaRecipeSteps.setText(null);
+                areaIngredients.setText(null);
 
                 try {
 
@@ -336,9 +334,13 @@ public class NewPreparationOrderPanel extends JPanel {
                     labelValuePrepTime.setText(Integer.toString(recipe.getPreparationTime()));
 
                     recipeSteps = applicationController.getRecipeSteps(item.toString());
+                    recipeComposition = applicationController.getComposition(item.toString());
 
                     for(RecipeStep step : recipeSteps){
                         areaRecipeSteps.append(step.toString());
+                    }
+                    for(Composition composition : recipeComposition){
+                        areaIngredients.append(composition.toString());
                     }
                 } catch(DataException de){
                      System.out.println(de.getMessage());
