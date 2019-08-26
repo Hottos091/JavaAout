@@ -31,7 +31,6 @@ create table Composition (
      label_ingredient varchar(64) not null,
      recipe_label varchar(64) not null,
      required_quantity int not null,
-     quantifiable boolean not null,
      constraint COMPOSITION_PK primary key (label_ingredient, recipe_label));
 
 create table Supplier (
