@@ -3,8 +3,8 @@
 -- Database Section
 -- ________________
 
-create database test4;
-use test4;
+create database bazar;
+use bazar;
 
 
 -- Tables Section
